@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<style>
+html, body, #map {
+  width: 85%;
+  height: 100%;
+  margin: 1;
+  padding: 10;
+}
+
+</style>
+<div id="map"></div>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
+<script src="//d3js.org/d3.v3.min.js"></script>
+<script>
+// Create the Google Map…
+
+/*
+from: http://www.bmdata.co.uk/effective/index_map.html
+*/
+var map = new google.maps.Map(d3.select("#map").node(), {
+  zoom: 11,
+  center: new google.maps.LatLng(39.85, -86.15),
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+});
+
+</script>
+  </body>
+</html>
