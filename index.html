@@ -2,11 +2,25 @@
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 <style>
+  
+/* map placement; auto-scale base on window size */
 html, body, #map {
   width: 85%;
   height: 100%;
   margin: 1;
   padding: 10;
+}
+  
+/* circle position on overlay */
+.crash, .crash svg {
+  position: absolute;
+}
+
+/* circle attribute */
+.crash circle {
+  fill: red;
+  stroke: black;
+  stroke-width: 0.5px;
 }
 
 </style>
@@ -17,7 +31,9 @@ html, body, #map {
 // Create the Google Map…
 
 /*
+REFERENCES
 from: http://www.bmdata.co.uk/effective/index_map.html
+      https://bl.ocks.org/mbostock/899711
 */
 var map = new google.maps.Map(d3.select("#map").node(), {
   zoom: 11,
@@ -25,6 +41,57 @@ var map = new google.maps.Map(d3.select("#map").node(), {
   mapTypeId: google.maps.MapTypeId.ROADMAP
 });
 
+  //load data
+d3.csv("autodata_select.csv", function(error,data){
+  if (error) throw error;
+
+  //create overlay; overlay is the layer over the google map
+  var overlay= new google.maps.OverlayView();
+
+  // "Add the container when the overlay is added to the map"
+  // mbostock
+  overlay.onAdd= function(){
+    var layer = d3.select(this.getPanes().overlayLayer).append("div")
+                  .attr("class","crash")
+
+    // Draw each marker as a separate SVG element
+    // mbostock
+    overlay.draw=function(){
+
+      var projection=this.getProjection(),
+      padding = 10;
+
+      var marker = layer.selectAll("svg")
+                        .data(data)
+                        .each(transform)
+                        .enter().append("svg")
+                        .each(transform)
+                        .attr("class","marker")
+
+      // Add circle
+      marker.append("circle")
+            .attr("r", 1)
+            .attr("cx", padding)
+            .attr("cy", padding)
+
+    //add labels
+    //insert code
+
+
+      function transform(d){
+        d= new google.maps.LatLng(+d.Latitude, +d.Longitude);
+        d= projection.fromLatLngToDivPixel(d);
+        return d3.select(this)
+                 .style("left", (d.x-padding) + "px")
+                 .style("top", (d.y-padding)+ "px");
+        }
+      };
+    };
+    // "Bind our overlay to the map"
+    // mbostock
+    overlay.setMap(map);
+    });
+  
 </script>
   </body>
 </html>
