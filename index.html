@@ -1,16 +1,25 @@
+
 <!DOCTYPE html>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
 <style>
-  
+
 /* map placement; auto-scale base on window size */
-html, body, #map {
-  width: 85%;
-  height: 100%;
-  margin: 1;
-  padding: 10;
+#map{
+  width: 600px;
+  height: 650px;
+  margin: 10;
+  padding: 0;
+  border: solid 1px gray;
+  float:left;
 }
- 
+
+#div2 {
+      margin-left: : 650px;
+      border: solid 1px blue;
+    }
+
 .axis path, .axis line {
   fill: none;
   stroke: black;
@@ -21,11 +30,6 @@ html, body, #map {
   font-size: 11px;
 }
 
-svg {
-      border: solid 1px none;
-      display: block;
-    }
-  
 /* circle position on overlay */
 .crash, .crash svg {
   position: absolute;
@@ -39,41 +43,44 @@ svg {
 }
 
 </style>
-<div id="map"></div>
+
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
 <script src="//d3js.org/d3.v3.min.js"></script>
+</head>
 
-<head>
-   <body>
+<body>
+<div style="width:100%; overflow:hidden;">
+  <div id="map"></div>
+  <div id="div2">
     <svg id="svg2" width="600" height="400">
 
-    <g id='agechart0' transform="translate(35,120)"/>
-    <g id='agechart1' transform="translate(35,120)"/>
-    <g id='agechart2' transform="translate(35,120)"/>
-    <g id='agechart3' transform="translate(35,120)"/>
-    <g id='agechart4' transform="translate(35,120)"/>
-    <g id='agechart5' transform="translate(35,120)"/>
-    <g id='agechart6' transform="translate(35,120)"/>
-    <g id='agechart7' transform="translate(35,120)"/>
-    <g id='agechart8' transform="translate(35,120)"/>
-    <g id='agechart9' transform="translate(35,120)"/>
-    <g id='agechart10' transform="translate(35,120)"/>
+      <g id='agechart0' transform="translate(35,120)"/>
+      <g id='agechart1' transform="translate(35,120)"/>
+      <g id='agechart2' transform="translate(35,120)"/>
+      <g id='agechart3' transform="translate(35,120)"/>
+      <g id='agechart4' transform="translate(35,120)"/>
+      <g id='agechart5' transform="translate(35,120)"/>
+      <g id='agechart6' transform="translate(35,120)"/>
+      <g id='agechart7' transform="translate(35,120)"/>
+      <g id='agechart8' transform="translate(35,120)"/>
+      <g id='agechart9' transform="translate(35,120)"/>
+      <g id='agechart10' transform="translate(35,120)"/>
 
-    <text id="agegroup_txt" x="-635" y="170" transform="rotate(-90)">Number of Deaths</text>
+      <text id="agegroup_txt" x="-635" y="170" transform="rotate(-90)">Number of Deaths</text>
 
-    <text x="200" y="100">AGE GROUP DISTRIBUTION</text>
+      <text x="200" y="100">AGE GROUP DISTRIBUTION</text>
 
-    <g id='agegroup_txt' transform="translate(100,100)"/>
+      <g id='agegroup_txt' transform="translate(100,100)"/>
 
-    <g id="ppl" transform="translate(0,-11), rotate(1.25)"/>
+      <g id="ppl" transform="translate(0,-11), rotate(1.25)"/>
     </svg>
-  </body>
-<script>
-//////////////////////////  
-// Create Age Bar Chart //  
-//////////////////////////
+  </div>
+</div>
+//<script src="bars.js"></script>
 
-  //Age group color
+<script>
+
+//Age group color
 var color_group1="crimson"
 var color_group2="salmon"
 var color_group3="mediumblue"
@@ -136,8 +143,8 @@ var svg2= d3.select("#svg2")
        .attr("x", 10)
        .style("text-anchor","start");
 
-
-//FUNCTION Age group bar
+////////////////////////////////////////////////////////
+///////////FUNCTION Age group bar
 
  function infoage(id,agegroup, x_value, barcolor){
  svg2.select(id)
@@ -187,7 +194,7 @@ var svg2= d3.select("#svg2")
 
    }
 
-//Draw Age charts
+//////////////////Draw Age charts
 function AgeChart()
 {
           start=100
@@ -215,7 +222,7 @@ function AgeChart()
          infoage("#agechart10",">=85 Years",start + 10*space,color_group11);
          }
 
-///////////////////////////  
+///////////////////////////
 // Create the Google Map //
 ///////////////////////////
 /*
@@ -223,17 +230,27 @@ REFERENCES
 from: http://www.bmdata.co.uk/effective/index_map.html
       https://bl.ocks.org/mbostock/899711
 */
+
 var map = new google.maps.Map(d3.select("#map").node(), {
-  zoom: 11,
+  zoom: 10,
   center: new google.maps.LatLng(39.85, -86.15),
   mapTypeId: google.maps.MapTypeId.ROADMAP
-});
+  });
 
-  //load data
+//load data
 d3.csv("autodata_select.csv", function(error,data){
   if (error) throw error;
 
+  data.forEach(function(d){
+      d.index=d.Index;
+      d.gender=d.Gender;
+      d.age=d.Age;
+
+      ppl.push([d.index,d.gender,d.age]);
+    })
+
   //create overlay; overlay is the layer over the google map
+
   var overlay= new google.maps.OverlayView();
 
   // "Add the container when the overlay is added to the map"
@@ -247,7 +264,7 @@ d3.csv("autodata_select.csv", function(error,data){
     overlay.draw=function(){
 
       var projection=this.getProjection(),
-      padding = 10;
+      padding = 11;
 
       var marker = layer.selectAll("svg")
                         .data(data)
@@ -255,31 +272,33 @@ d3.csv("autodata_select.csv", function(error,data){
                         .enter().append("svg")
                         .each(transform)
                         .attr("class","marker")
-
       // Add circle
+      circle_r=2;
       marker.append("circle")
-            .attr("r", 1)
+            .attr("r", circle_r)
             .attr("cx", padding)
             .attr("cy", padding)
+            .attr("opacity",0.75)
 
     //add labels
     //insert code
-
 
       function transform(d){
         d= new google.maps.LatLng(+d.Latitude, +d.Longitude);
         d= projection.fromLatLngToDivPixel(d);
         return d3.select(this)
                  .style("left", (d.x-padding) + "px")
-                 .style("top", (d.y-padding)+ "px");
+                 .style("top", (d.y-padding)+ "px")
         }
       };
     };
     // "Bind our overlay to the map"
     // mbostock
     overlay.setMap(map);
+    AgeChart()
     });
-  
+
+
 </script>
   </body>
 </html>
