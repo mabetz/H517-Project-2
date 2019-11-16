@@ -10,6 +10,21 @@ html, body, #map {
   margin: 1;
   padding: 10;
 }
+ 
+.axis path, .axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.tick text {
+  fill: black;
+  font-size: 11px;
+}
+
+svg {
+      border: solid 1px none;
+      display: block;
+    }
   
 /* circle position on overlay */
 .crash, .crash svg {
@@ -27,9 +42,182 @@ html, body, #map {
 <div id="map"></div>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
 <script src="//d3js.org/d3.v3.min.js"></script>
-<script>
-// Create the Google Map…
 
+<head>
+   <body>
+    <svg id="svg2" width="600" height="400">
+
+    <g id='agechart0' transform="translate(35,120)"/>
+    <g id='agechart1' transform="translate(35,120)"/>
+    <g id='agechart2' transform="translate(35,120)"/>
+    <g id='agechart3' transform="translate(35,120)"/>
+    <g id='agechart4' transform="translate(35,120)"/>
+    <g id='agechart5' transform="translate(35,120)"/>
+    <g id='agechart6' transform="translate(35,120)"/>
+    <g id='agechart7' transform="translate(35,120)"/>
+    <g id='agechart8' transform="translate(35,120)"/>
+    <g id='agechart9' transform="translate(35,120)"/>
+    <g id='agechart10' transform="translate(35,120)"/>
+
+    <text id="agegroup_txt" x="-635" y="170" transform="rotate(-90)">Number of Deaths</text>
+
+    <text x="200" y="100">AGE GROUP DISTRIBUTION</text>
+
+    <g id='agegroup_txt' transform="translate(100,100)"/>
+
+    <g id="ppl" transform="translate(0,-11), rotate(1.25)"/>
+    </svg>
+  </body>
+<script>
+//////////////////////////  
+// Create Age Bar Chart //  
+//////////////////////////
+
+  //Age group color
+var color_group1="crimson"
+var color_group2="salmon"
+var color_group3="mediumblue"
+var color_group4="dodgerblue"
+var color_group5="goldenrod"
+var color_group6="rgb(255,235,0)"
+
+var color_group7="cornflowerblue"
+var color_group8="cyan"
+var color_group9="darkcyan"
+var color_group10="deepskyblue"
+var color_group11="darkturquoise"
+
+var ppl=[];
+
+var svg2= d3.select("#svg2")
+
+ var MAX_BAR_HEIGHT = 200;
+
+ BAR_WIDTH=35;
+ var yaxis_adjust=MAX_BAR_HEIGHT-80;
+ var genbar_start= 0;
+
+ var bar_yScale = d3.scale.linear()
+            .domain([0,60])
+            .range([MAX_BAR_HEIGHT, 0]);
+
+ var bar_hScale = d3.scale.linear()
+             .domain([0, 60])
+             .range([0, MAX_BAR_HEIGHT]);
+
+ var yAxis_age = d3.svg.axis()
+           .scale(bar_yScale)
+           .orient("left")
+           .ticks(4);
+
+   svg2.append("g")
+        .attr("class", "age axis")
+        .attr("transform", "translate(130,"+yaxis_adjust+")")
+        .call(yAxis_age);
+//Age X axis
+ var age_xScale = d3.scale.ordinal()
+                 .domain(["<1", "1-4",
+                          "5-14", "15-24",
+                          "25-34", "35-44",
+                          "45-54", "55-64",
+                          "65-74", "75-84",
+                          ">=85", ""])
+                 .rangePoints([0, 11*(BAR_WIDTH+5)]);
+
+ var xAxis_age = d3.svg.axis()
+               .scale(age_xScale)
+               .orient("bottom")
+
+ svg2.append("g")
+     .attr("class", "x axis")
+     .attr("transform", "translate(130,325)")
+     .call(xAxis_age)
+     .selectAll("text")
+       .attr("x", 10)
+       .style("text-anchor","start");
+
+
+//FUNCTION Age group bar
+
+ function infoage(id,agegroup, x_value, barcolor){
+ svg2.select(id)
+     .selectAll('rect')
+     .data(ppl)
+     .enter()
+     .append("rect")
+     .attr("stroke","black")
+     .attr("fill", barcolor)
+     .attr('height',function(d){
+           return bar_hScale(d3.sum(ppl, function(d) {
+                             return d[2]==agegroup;
+                         })
+                       );
+                     })
+     .attr('width', function(d){return BAR_WIDTH;})
+     .attr("x", x_value)
+     .attr("y", function(d){
+           return genbar_start + bar_yScale(d3.sum(ppl, function(d) {
+                               return d[2]==agegroup;
+                           })
+                         );
+                     })
+
+       //txt agegroup total
+       svg2.select(id).selectAll("text")
+          .data(ppl)
+          .enter()
+          .append("text")
+          .text(
+                 d3.sum(ppl, function(d) {
+                     return d[2]==agegroup;
+
+              })
+            )
+          .attr("text-anchor", "middle")
+          .attr("x", (x_value+18))
+          .attr("y", function(d){
+                        return (genbar_start-5) + bar_yScale(d3.sum(ppl, function(d) {
+                            return d[2]==agegroup;
+                          })
+                        );
+                      })
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "11px")
+          .attr("fill", "blue");
+
+   }
+
+//Draw Age charts
+function AgeChart()
+{
+          start=100
+          space=BAR_WIDTH+5
+         infoage("#agechart0","<1 Year",start, color_group1);
+
+         infoage("#agechart1","1-4 Years",start + space,color_group2);
+
+         infoage("#agechart2","5-14 Years",start + 2*space,color_group3);
+
+         infoage("#agechart3","15-24 Years",start + 3*space,color_group4);
+
+         infoage("#agechart4","25-34 Years",start + 4*space,color_group5);
+
+         infoage("#agechart5","35-44 Years",start + 5*space,color_group6);
+
+         infoage("#agechart6","45-54 Years",start + 6*space,color_group7);
+
+         infoage("#agechart7","55-64 Years",start + 7*space,color_group8);
+
+         infoage("#agechart8","65-74 Years",start + 8*space,color_group9);
+
+         infoage("#agechart9","75-84 Years",start + 9*space,color_group10);
+
+         infoage("#agechart10",">=85 Years",start + 10*space,color_group11);
+         }
+
+///////////////////////////  
+// Create the Google Map //
+///////////////////////////
 /*
 REFERENCES
 from: http://www.bmdata.co.uk/effective/index_map.html
