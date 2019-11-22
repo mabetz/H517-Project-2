@@ -43,7 +43,7 @@
 .crash circle {
   fill: red;
   stroke: black;
-  stroke-width: 0.5px;
+  stroke-width: 0.75px;
 }
 
  h2,h4{
@@ -87,6 +87,7 @@
   </div>
 </div>
 <script src="bars.js"></script>
+<script src="week_bars.js"></script>
 <script>
 ///////////////////////////
 // Create the Google Map //
@@ -144,7 +145,7 @@ d3.csv("autodata_select.csv", function(error,data){
             .attr("r", circle_r)
             .attr("cx", padding)
             .attr("cy", padding)
-            .attr("opacity",0.5)
+            .attr("opacity",0.75)
 
     //add labels
     //insert code
