@@ -16,9 +16,9 @@
 }
 
 #div2 {
-      margin-left: : 650px;
-      border: solid 1px blue;
-    }
+  margin-left: : 650px;
+  border: solid 1px blue;
+}
 
 .axis path, .axis line {
   fill: none;
@@ -33,10 +33,9 @@
 /* circle position on overlay */
 .crash, .crash svg {
   position: absolute;
-  /*
-  width: 20px;
-  height: 20px;
-  */
+  /*border: solid 1px green;*/
+  width:20px;
+  height:20px;
 }
 
 /* circle attribute */
@@ -45,16 +44,15 @@
   stroke: black;
   stroke-width: 0.75px;
 }
-
- h2,h4{
+h2,h4{
   text-align: center;
 }
+
 </style>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
 <script src="//d3js.org/d3.v3.min.js"></script>
 </head>
-
 <body>
   <h2>TITLE</h2>
   <h4>SUBTITLE</h4>
@@ -62,33 +60,38 @@
 <div style="width:100%; overflow:hidden;">
   <div id="map"></div>
   <div id="div2">
-    <svg id="svg2" width="600" height="400">
+    <svg id="svg2" width="600" height="545">
 
-      <g id='agechart0' transform="translate(35,120)"/>
-      <g id='agechart1' transform="translate(35,120)"/>
-      <g id='agechart2' transform="translate(35,120)"/>
-      <g id='agechart3' transform="translate(35,120)"/>
-      <g id='agechart4' transform="translate(35,120)"/>
-      <g id='agechart5' transform="translate(35,120)"/>
-      <g id='agechart6' transform="translate(35,120)"/>
-      <g id='agechart7' transform="translate(35,120)"/>
-      <g id='agechart8' transform="translate(35,120)"/>
-      <g id='agechart9' transform="translate(35,120)"/>
-      <g id='agechart10' transform="translate(35,120)"/>
+      <g id='agechart0' transform="translate(35,110)"/>
+      <g id='agechart1' transform="translate(35,110)"/>
+      <g id='agechart2' transform="translate(35,110)"/>
+      <g id='agechart3' transform="translate(35,110)"/>
+      <g id='agechart4' transform="translate(35,110)"/>
+      <g id='agechart5' transform="translate(35,110)"/>
+      <g id='agechart6' transform="translate(35,110)"/>
+      <g id='agechart7' transform="translate(35,110)"/>
+      <g id='agechart8' transform="translate(35,110)"/>
+      <g id='agechart9' transform="translate(35,110)"/>
+      <g id='agechart10' transform="translate(35,110)"/>
 
-      <text id="agegroup_txt" x="-635" y="170" transform="rotate(-90)">Number of Deaths</text>
+      <text id="bar_txt" x="-200" y="50" transform="rotate(-90)">Number of Deaths</text>
 
-      <text x="200" y="100">AGE GROUP DISTRIBUTION</text>
+      <text x="200" y="40">AGE GROUP DISTRIBUTION</text>
 
       <g id='agegroup_txt' transform="translate(100,100)"/>
 
-      <g id="ppl" transform="translate(0,-11), rotate(1.25)"/>
+<!-- Comment -->
+      <g id='MON' transform="translate(35,120)"/>
+
+
     </svg>
   </div>
 </div>
+
 <script src="bars.js"></script>
 <script src="week_bars.js"></script>
 <script>
+
 ///////////////////////////
 // Create the Google Map //
 ///////////////////////////
@@ -104,6 +107,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
   mapTypeId: google.maps.MapTypeId.ROADMAP
   });
 
+
 //load data
 d3.csv("autodata_select.csv", function(error,data){
   if (error) throw error;
@@ -111,7 +115,7 @@ d3.csv("autodata_select.csv", function(error,data){
   data.forEach(function(d){
       d.index=d.Index;
       d.gender=d.Gender;
-      d.age=d.Age;
+      d.age=d.Day;
 
       ppl.push([d.index,d.gender,d.age]);
     })
@@ -140,12 +144,12 @@ d3.csv("autodata_select.csv", function(error,data){
                         .each(transform)
                         .attr("class","marker")
       // Add circle
-      circle_r=2;
+      circle_r=3;
       marker.append("circle")
             .attr("r", circle_r)
             .attr("cx", padding)
             .attr("cy", padding)
-            .attr("opacity",0.75)
+            .attr("opacity",0.5)
 
     //add labels
     //insert code
@@ -162,7 +166,7 @@ d3.csv("autodata_select.csv", function(error,data){
     // "Bind our overlay to the map"
     // mbostock
     overlay.setMap(map);
-    AgeChart()
+    AgeChart();
     });
 
 
