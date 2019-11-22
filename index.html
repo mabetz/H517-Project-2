@@ -85,11 +85,17 @@ select {
       <text x="200" y="40">AGE GROUP DISTRIBUTION</text>
 
       <g id='agegroup_txt' transform="translate(100,100)"/>
+      
+      <!-- Days of the Week SVG's -->
+      <text x="200" y="350">Days of the Week</text>
 
-<!-- Comment -->
-      <g id='MON' transform="translate(35,120)"/>
-
-
+      <g id='MON' transform="translate(35,365)"/>
+      <g id='TUES' transform="translate(35,365)"/>
+      <g id='WED' transform="translate(35,365)"/>
+      <g id='THURS' transform="translate(35,365)"/>
+      <g id='FRI' transform="translate(35,365)"/>
+      <g id='SAT' transform="translate(35,365)"/>
+      <g id='SUN' transform="translate(35,365)"/>
     </svg>
   </div>
 </div>
@@ -97,7 +103,11 @@ select {
 <script src="bars.js"></script>
 <script src="week_bars.js"></script>
 <script>
+var ppl=[];
 
+//Just to see if drop down menu works, can delete later  
+var days_week=["Monday","Tuesday","Wednesday","Thursday","Friday",
+           "Saturday","Sunday"]
 ///////////////////////////
 // Create the Google Map //
 ///////////////////////////
@@ -121,18 +131,19 @@ d3.csv("autodata_select.csv", function(error,data){
   data.forEach(function(d){
       d.index=d.Index;
       d.gender=d.Gender;
-      d.age=d.Day;
+      d.day=d.Day;
 
-      ppl.push([d.index,d.gender,d.age]);
+      ppl.push([d.index,d.gender,d.day]);
     })
   
+    //Just to see if drop down menu works, can delete later  
     var selector = d3.select("body")
   		.append("select")
-  		.attr("id", "weekday")
+  		.attr("id", "weekselector")
   		.selectAll("option")
-  		.data(data)
+  		.data(days_week)
   		.enter().append("option")
-  		.text(function(d) { return d.Day; })
+  		.text(function(d) { return d; })
   		.attr("value", function (d, i) {
   			return i;
   		});
@@ -183,6 +194,7 @@ d3.csv("autodata_select.csv", function(error,data){
     // mbostock
     overlay.setMap(map);
     AgeChart();
+    Weekday_Chart();
     });
 
 
