@@ -7,7 +7,7 @@ var svg2= d3.select("#svg2")
  BAR_WIDTH=30;
 var textcenter=BAR_WIDTH/2;
 
- var yaxis_adjust=MAX_BAR_HEIGHT-80;
+ var yaxis_adjust=MAX_BAR_HEIGHT-140;
  var genbar_start= 0;
  var max_bar_value=150
 
@@ -44,11 +44,12 @@ var textcenter=BAR_WIDTH/2;
 
  svg2.append("g")
      .attr("class", "x axis")
-     .attr("transform", "translate(130,325)")
+     .attr("transform", "translate(130,265)")
      .call(xAxis_age)
      .selectAll("text")
        .attr("x", 10)
        .style("text-anchor","start");
+
 
 ////////////////////////////////////////////////////////
 ///////////FUNCTION Age group bar
