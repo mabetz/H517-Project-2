@@ -1,4 +1,3 @@
-var ppl=[];
 
 var svg2= d3.select("#svg2")
 
@@ -8,7 +7,7 @@ var svg2= d3.select("#svg2")
 var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust=MAX_BAR_HEIGHT+215;
- var genbar_start= 0;
+ var weekbar_start= 0;
  var max_bar_value=150
 
  var bar_yScale = d3.scale.linear()
@@ -30,13 +29,11 @@ var textcenter=BAR_WIDTH/2;
         .call(yAxis_age);
 //Age X axis
  var age_xScale = d3.scale.ordinal()
-                 .domain(["<1", "1-4",
-                          "5-14", "15-24",
-                          "25-34", "35-44",
-                          "45-54", "55-64",
-                          "65-74", "75-84",
-                          ">=85", ""])
-                 .rangePoints([0, 11*(BAR_WIDTH+5)]);
+                 .domain(["Monday", "Tuesday",
+                          "Wednesday", "Thursday",
+                          "Friday", "Saturday",
+                          "Sunday", ""])
+                 .rangePoints([0, 7*(BAR_WIDTH+5)]);
 
  var xAxis_age = d3.svg.axis()
                .scale(age_xScale)
@@ -53,7 +50,7 @@ var textcenter=BAR_WIDTH/2;
 ////////////////////////////////////////////////////////
 ///////////FUNCTION Age group bar
 
- function infoage(id,agegroup, x_value){
+ function c_week_bars(id,group, x_value){
  svg2.select(id)
      .selectAll('rect')
      .data(ppl)
@@ -63,15 +60,15 @@ var textcenter=BAR_WIDTH/2;
      .attr("fill", "gold")
      .attr('height',function(d){
            return bar_hScale(d3.sum(ppl, function(d) {
-                             return d[2]==agegroup;
+                             return d[2]==group;
                          })
                        );
                      })
      .attr('width', function(d){return BAR_WIDTH;})
      .attr("x", x_value)
      .attr("y", function(d){
-           return genbar_start + bar_yScale(d3.sum(ppl, function(d) {
-                               return d[2]==agegroup;
+           return weekbar_start + bar_yScale(d3.sum(ppl, function(d) {
+                               return d[2]==group;
                            })
                          );
                      })
@@ -83,15 +80,15 @@ var textcenter=BAR_WIDTH/2;
           .append("text")
           .text(
                  d3.sum(ppl, function(d) {
-                     return d[2]==agegroup;
+                     return d[2]==group;
 
               })
             )
           .attr("text-anchor", "middle")
           .attr("x", (x_value+textcenter))
           .attr("y", function(d){
-                        return (genbar_start-5) + bar_yScale(d3.sum(ppl, function(d) {
-                            return d[2]==agegroup;
+                        return (weekbar_start-5) + bar_yScale(d3.sum(ppl, function(d) {
+                            return d[2]==group;
                           })
                         );
                       })
@@ -102,29 +99,21 @@ var textcenter=BAR_WIDTH/2;
    }
 
 //////////////////Draw Age charts
-function AgeChart()
+function Weekday_Chart()
 {
   start=100
   space=BAR_WIDTH+5
-  infoage("#agechart0","<1 Year",start);
+  c_week_bars("#MON","MONDAY",start);
 
-  infoage("#agechart1","1-4 Years",start + space);
+  c_week_bars("#TUES","TUESDAY",start + space);
 
-  infoage("#agechart2","5-14 Years",start + 2*space);
+  c_week_bars("#WED","WEDNESDAY",start + 2*space);
 
-  infoage("#agechart3","15-24 Years",start + 3*space);
+  c_week_bars("#THURS","THURSDAY",start + 3*space);
 
-  infoage("#agechart4","25-34 Years",start + 4*space,);
+  c_week_bars("#FRI","FRIDAY",start + 4*space,);
 
-  infoage("#agechart5","35-44 Years",start + 5*space,);
+  c_week_bars("#SAT","SATURDAY",start + 5*space,);
 
-  infoage("#agechart6","45-54 Years",start + 6*space,);
-
-  infoage("#agechart7","55-64 Years",start + 7*space,);
-
-  infoage("#agechart8","65-74 Years",start + 8*space,);
-
-  infoage("#agechart9","75-84 Years",start + 9*space,);
-
-  infoage("#agechart10",">=85 Years",start + 10*space);
+  c_week_bars("#SUN","SUNDAY",start + 6*space,);
 }
