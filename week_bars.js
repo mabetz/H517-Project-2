@@ -73,15 +73,34 @@ var textcenter=BAR_WIDTH/2;
                          );
                      })
      .on("click",function(data){
-           if (!d3.select(this).classed("selected") ){
-             d3.select(this).classed("selected", true)
-             d3.select(this).transition().attr("fill","red");
-           }
-           else{
-             d3.select(this).classed("selected", false);
-             d3.select(this).transition().attr("fill","gold");
-           } 
-       });
+        if (!d3.select(this).classed("selected")) {
+          d3.select(this).classed("selected", true)
+          d3.select(this).transition().attr("fill","red");
+
+
+          //update map
+          d3.selectAll("circle")
+            .transition()
+            .duration(100)
+            .attr("opacity",0.05)
+            .filter(function(d){return d.Day==group})
+              .attr("opacity", 1);
+
+        }
+        else{
+          d3.select(this).classed("selected", false);
+          d3.select(this).transition().attr("fill","gold");
+
+
+          //update map
+          d3.selectAll("circle")
+            .transition()
+            .duration(100)
+            .filter(function(d){return d.Day==group})
+              .attr("opacity", 0.5);
+
+              }
+          });
 
        //txt agegroup total
        svg2.select(id).selectAll("text")
