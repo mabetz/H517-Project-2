@@ -72,6 +72,16 @@ var textcenter=BAR_WIDTH/2;
                            })
                          );
                      })
+     .on("click",function(data){
+           if (!d3.select(this).classed("selected") ){
+             d3.select(this).classed("selected", true)
+             d3.select(this).transition().attr("fill","red");
+           }
+           else{
+             d3.select(this).classed("selected", false);
+             d3.select(this).transition().attr("fill","gold");
+           } 
+       });
 
        //txt agegroup total
        svg2.select(id).selectAll("text")
