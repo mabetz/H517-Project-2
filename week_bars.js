@@ -81,10 +81,9 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(100)
-            .attr("opacity",0.05)
+            .duration(1000)
             .filter(function(d){return d.Day==group})
-              .attr("opacity", 1);
+              .style("fill", "blue");
 
         }
         else{
@@ -95,9 +94,9 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(100)
+            .duration(1000)
             .filter(function(d){return d.Day==group})
-              .attr("opacity", 0.5);
+              .style("fill", "red");
 
               }
           });
