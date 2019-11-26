@@ -48,20 +48,29 @@ h2,h4{
   text-align: center;
 }
 
-select { 
-  position: absolute; 
-  left: 50px; 
-  top: 80px; 
+select {
+  position: absolute;
+  left: 50px;
+  top: 80px;
  }
-  
+
 </style>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
 <script src="//d3js.org/d3.v3.min.js"></script>
+
 </head>
 <body>
   <h2>TITLE</h2>
   <h4>SUBTITLE</h4>
+
+
+// This is our calendar inputs for filtering
+  <div align ="center">
+From : <input type="date" name="date1" id="date1"  value="2018-06-01" min="2018-01-01" max="2019-12-31" />
+To :   <input type="date" name="date1" id="date2" value="2019-06-01" min="2018-01-01" max="2019-12-31" /><br /><br />
+<input type="button" onclick="render(true)" value="Submit" />
+</div>
 
 <div style="width:100%; overflow:hidden;">
   <div id="map"></div>
@@ -85,7 +94,7 @@ select {
       <text x="200" y="40">AGE GROUP DISTRIBUTION</text>
 
       <g id='agegroup_txt' transform="translate(100,100)"/>
-      
+
       <!-- Days of the Week SVG's -->
       <text x="200" y="350">Days of the Week</text>
 
@@ -103,9 +112,26 @@ select {
 <script src="bars.js"></script>
 <script src="week_bars.js"></script>
 <script>
+
+//Maggie: testing out filtering data by date
+var	parseDate = d3.time.format("%Y-%m-%d").parse; //parse into date for easy filtering.
+var	parseDateCSV = d3.time.format("%m/%d/%Y").parse; //parse CSV file which has different format than the calendar input buttons
+
+function render(filterByDates) {
+
+  if(filterByDates) {
+    var date1 = parseDate(document.getElementById('date1').value);
+    var date2 = parseDate(document.getElementById('date2').value);
+
+    myData = ppl.filter(function(d) {
+      return d.date >= date1 && d.date <= date2;
+    });
+  }
+}
+
 var ppl=[];
 
-//Just to see if drop down menu works, can delete later  
+//Just to see if drop down menu works, can delete later
 var days_week=["Monday","Tuesday","Wednesday","Thursday","Friday",
            "Saturday","Sunday"]
 ///////////////////////////
@@ -125,18 +151,39 @@ var map = new google.maps.Map(d3.select("#map").node(), {
 
 
 //load data
-d3.csv("output_filtered_2015_to_2018.csv", function(error,data){
+
+//This is an array of arrays
+/*d3.csv("output_filtered_2015_to_2018.csv", function(error,data){
   if (error) throw error;
 
   data.forEach(function(d){
       d.index=d.Index;
-      d.gender=d.Gender;
-      d.day=d.Day;
-
-      ppl.push([d.index,d.gender,d.day]);
+      d.gender=d.Gender; //import gender
+      d.day=d.Day; //import day of week (Monday, Tuesday....)
+      //d.date=d.Date; //import date of crash format: mm/dd/yyyy
+      d.date 	= parseDateCSV(d.Date);
+      ppl.push([d.index,d.gender,d.day, d.date]);
     })
-  
-    //Just to see if drop down menu works, can delete later  
+*/
+
+//This is an array of objects
+   d3.csv("output_filtered_2015_to_2018.csv", function(error,data){
+      if (error) throw error;
+
+      data.forEach(function(d){
+        var object ={
+          index: d.Index,
+          gender: d.Gender, //import gender
+          day : d.Day, //import day of week (Monday, Tuesday....)
+          //d.date=d.Date; //import date of crash format: mm/dd/yyyy
+          date: parseDateCSV(d.Date),
+        }
+        ppl.push(object);
+        })
+
+
+
+    //Just to see if drop down menu works, can delete later
     var selector = d3.select("body")
   		.append("select")
   		.attr("id", "weekselector")

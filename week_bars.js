@@ -1,4 +1,8 @@
+//d3.select('#svg2').slider().value([10, 45 ]).orientation("vertical")
 
+
+
+////////////
 var svg2= d3.select("#svg2")
 
  var MAX_BAR_HEIGHT = 150;
@@ -60,7 +64,7 @@ var textcenter=BAR_WIDTH/2;
      .attr("fill", "gold")
      .attr('height',function(d){
            return bar_hScale(d3.sum(ppl, function(d) {
-                             return d[2]==group;
+                             return d.day==group;
                          })
                        );
                      })
@@ -68,7 +72,7 @@ var textcenter=BAR_WIDTH/2;
      .attr("x", x_value)
      .attr("y", function(d){
            return weekbar_start + bar_yScale(d3.sum(ppl, function(d) {
-                               return d[2]==group;
+                               return d.day==group;
                            })
                          );
                      })
@@ -80,7 +84,7 @@ var textcenter=BAR_WIDTH/2;
           .append("text")
           .text(
                  d3.sum(ppl, function(d) {
-                     return d[2]==group;
+                     return d.day==group;
 
               })
             )
@@ -88,7 +92,7 @@ var textcenter=BAR_WIDTH/2;
           .attr("x", (x_value+textcenter))
           .attr("y", function(d){
                         return (weekbar_start-5) + bar_yScale(d3.sum(ppl, function(d) {
-                            return d[2]==group;
+                            return d.day==group;
                           })
                         );
                       })
