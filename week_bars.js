@@ -12,7 +12,7 @@ var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust=MAX_BAR_HEIGHT+215;
  var weekbar_start= 0;
- var max_bar_value=150
+ var max_bar_value=70
 
  var bar_yScale = d3.scale.linear()
             .domain([0,max_bar_value])
@@ -76,6 +76,34 @@ var textcenter=BAR_WIDTH/2;
                            })
                          );
                      })
+     .on("click",function(data){
+        if (!d3.select(this).classed("selected")) {
+          d3.select(this).classed("selected", true)
+          d3.select(this).transition().attr("fill","red");
+
+
+          //update map
+          d3.selectAll("circle")
+            .transition()
+            .duration(1000)
+            .filter(function(d){return d.Day==group})
+              .style("fill", "blue");
+
+        }
+        else{
+          d3.select(this).classed("selected", false);
+          d3.select(this).transition().attr("fill","gold");
+
+
+          //update map
+          d3.selectAll("circle")
+            .transition()
+            .duration(1000)
+            .filter(function(d){return d.Day==group})
+              .style("fill", "red");
+
+              }
+          });
 
        //txt agegroup total
        svg2.select(id).selectAll("text")
