@@ -82,7 +82,7 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(10)
+            .duration(5)
             .filter(function(d){return d.Day==group})
               //.style("fill", "lightblue")
               .attr("r",0);
@@ -95,7 +95,7 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(10)
+            .duration(5)
             .filter(function(d){return d.Day==group})
               //.style("fill", "red")
               .attr("r",3)
