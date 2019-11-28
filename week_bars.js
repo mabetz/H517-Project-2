@@ -8,7 +8,7 @@ var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust=MAX_BAR_HEIGHT+215;
  var weekbar_start= 0;
- var max_bar_value=80;
+ var max_bar_value=90;
 
  var bar_yScale = d3.scale.linear()
             .domain([0,max_bar_value])
