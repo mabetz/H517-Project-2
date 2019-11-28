@@ -64,11 +64,10 @@ select {
   <h2>TITLE</h2>
   <h4>SUBTITLE</h4>
 
-
 <!--This is our calendar inputs for filtering-->
   <div align ="center">
-From : <input type="date" name="date1" id="date1"  value="2018-06-01" min="2018-01-01" max="2019-12-31" />
-To :   <input type="date" name="date1" id="date2" value="2019-06-01" min="2018-01-01" max="2019-12-31" /><br /><br />
+From : <input type="date" name="date1" id="date1"  value="2015-01-01" min="2015-01-01" max="2018-12-31" />
+To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-01-01" max="2018-12-31" /><br /><br />
 <input type="button" onclick="render(true)" value="Submit" />
 </div>
 
@@ -181,8 +180,6 @@ var map = new google.maps.Map(d3.select("#map").node(), {
         ppl.push(object);
         })
 
-
-
     //Just to see if drop down menu works, can delete later
     var selector = d3.select("body")
   		.append("select")
@@ -243,7 +240,6 @@ var map = new google.maps.Map(d3.select("#map").node(), {
     AgeChart();
     Weekday_Chart();
     });
-
 
 </script>
   <p>SLIDER TIMELINE</p>
