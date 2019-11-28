@@ -1,8 +1,4 @@
-//d3.select('#svg2').slider().value([10, 45 ]).orientation("vertical")
 
-
-
-////////////
 var svg2= d3.select("#svg2")
 
  var MAX_BAR_HEIGHT = 150;
@@ -12,7 +8,7 @@ var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust=MAX_BAR_HEIGHT+215;
  var weekbar_start= 0;
- var max_bar_value=70
+ var max_bar_value=70;
 
  var bar_yScale = d3.scale.linear()
             .domain([0,max_bar_value])
@@ -49,7 +45,8 @@ var textcenter=BAR_WIDTH/2;
      .call(xAxis_age)
      .selectAll("text")
        .attr("x", 10)
-       .style("text-anchor","start");
+       .style("text-anchor","start")
+       .attr("transform","translate(0,40),rotate(-45)");
 
 ////////////////////////////////////////////////////////
 ///////////FUNCTION Age group bar
@@ -76,34 +73,34 @@ var textcenter=BAR_WIDTH/2;
                            })
                          );
                      })
+     .attr("class","w_bar")
      .on("click",function(data){
         if (!d3.select(this).classed("selected")) {
           d3.select(this).classed("selected", true)
-          d3.select(this).transition().attr("fill","red");
-
+          d3.select(this).transition().attr("fill","lightgray")
 
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(1000)
+            .duration(10)
             .filter(function(d){return d.Day==group})
-              .style("fill", "blue");
+              //.style("fill", "lightblue")
+              .attr("r",0);
 
         }
         else{
           d3.select(this).classed("selected", false);
           d3.select(this).transition().attr("fill","gold");
 
-
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(1000)
+            .duration(10)
             .filter(function(d){return d.Day==group})
-              .style("fill", "red");
-
+              //.style("fill", "red")
+              .attr("r",3)
               }
-          });
+          })
 
        //txt agegroup total
        svg2.select(id).selectAll("text")
@@ -113,7 +110,6 @@ var textcenter=BAR_WIDTH/2;
           .text(
                  d3.sum(ppl, function(d) {
                      return d.day==group;
-
               })
             )
           .attr("text-anchor", "middle")
@@ -127,7 +123,6 @@ var textcenter=BAR_WIDTH/2;
           .attr("font-family", "sans-serif")
           .attr("font-size", "11px")
           .attr("fill", "blue");
-
    }
 
 //////////////////Draw Age charts
