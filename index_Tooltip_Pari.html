@@ -1,0 +1,306 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+<style>
+
+/* map placement; auto-scale base on window size */
+#map{
+  width: 600px;
+  height: 550px;
+  margin: 10;
+  padding: 0;
+  border: solid 1px gray;
+  float:left;
+}
+
+#div2 {
+  margin-left: : 650px;
+  border: solid 1px blue;
+}
+
+.axis path, .axis line {
+  fill: none;
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+.tick text {
+  fill: black;
+  font-size: 11px;
+}
+
+/* circle position on overlay */
+.crash, .crash svg {
+  position: absolute;
+  /*border: solid 1px green;*/
+  width:20px;
+  height:20px;
+}
+    
+
+    
+/* circle attribute */
+.crash circle {
+  fill: red;
+  stroke: black;
+  stroke-width: 0.75px;
+}
+
+/* tooltip Pari 11/29 */
+   /*  http://bl.ocks.org/jhmarcus/8185674 */
+.tooltip {
+  position: absolute;
+  line-height: .7;
+  font-weight: bold;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-weight: bold;
+  font: 11.5px sans-serif;
+  border-radius: 2px;
+  pointer-events: none;      
+}
+    
+h2,h4{
+  text-align: center;
+}
+
+select {
+  position: absolute;
+  left: 50px;
+  top: 80px;
+ }
+
+</style>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
+<script src="//d3js.org/d3.v3.min.js"></script>
+
+</head>
+<body>
+  <h2>TITLE</h2>
+  <h4>SUBTITLE</h4>
+
+<!--This is our calendar inputs for filtering-->
+  <div align ="center">
+From : <input type="date" name="date1" id="date1"  value="2015-01-01" min="2015-01-01" max="2018-12-31" />
+To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-01-01" max="2018-12-31" /><br /><br />
+<input id='submit' type="button" onclick="render(true)" value="Submit" />
+</div>
+
+<div style="width:100%; overflow:hidden;">
+  <div id="map"></div>
+  <div id="div2">
+    <svg id="svg2" width="600" height="600">
+
+      <g id='agechart0' transform="translate(35,110)"/>
+      <g id='agechart1' transform="translate(35,110)"/>
+      <g id='agechart2' transform="translate(35,110)"/>
+      <g id='agechart3' transform="translate(35,110)"/>
+      <g id='agechart4' transform="translate(35,110)"/>
+      <g id='agechart5' transform="translate(35,110)"/>
+      <g id='agechart6' transform="translate(35,110)"/>
+      <g id='agechart7' transform="translate(35,110)"/>
+      <g id='agechart8' transform="translate(35,110)"/>
+      <g id='agechart9' transform="translate(35,110)"/>
+      <g id='agechart10' transform="translate(35,110)"/>
+
+      <text id="bar_txt" x="-200" y="50" transform="rotate(-90)">Number of Deaths</text>
+
+      <text x="200" y="40">AGE GROUP DISTRIBUTION</text>
+
+      <g id='agegroup_txt' transform="translate(100,100)"/>
+
+      <!-- Days of the Week SVG's -->
+      <text x="200" y="350">Days of the Week</text>
+
+      <g id='MON' transform="translate(35,365)"/>
+      <g id='TUES' transform="translate(35,365)"/>
+      <g id='WED' transform="translate(35,365)"/>
+      <g id='THURS' transform="translate(35,365)"/>
+      <g id='FRI' transform="translate(35,365)"/>
+      <g id='SAT' transform="translate(35,365)"/>
+      <g id='SUN' transform="translate(35,365)"/>
+    </svg>
+  </div>
+</div>
+
+<script src="bars.js"></script>
+<script src="week_bars.js"></script>
+<script>
+
+//Maggie: testing out filtering data by date
+var	parseDate = d3.time.format("%Y-%m-%d").parse; //parse into date for easy filtering.
+var	parseDateCSV = d3.time.format("%m/%d/%Y").parse; //parse CSV file which has different format than the calendar input buttons
+
+function render(filterByDates) {
+
+  if(filterByDates) {
+    var date1 = parseDate(document.getElementById('date1').value);
+    var date2 = parseDate(document.getElementById('date2').value);
+
+    myData = ppl.filter(function(d) {
+      return d.date >= date1 && d.date <= date2;
+    });
+  }
+}
+
+// Action for Submit button; Shuennhau only knows how
+// to filter this way for now. Need to figure out to
+// extract dates from "myData"
+// Currently we can see the fitler in action: filtering out
+// Saturdays
+d3.select('#submit')
+  .on("click", function(data){
+      d3.selectAll("circle")
+        .transition()
+        .duration(10)
+        .filter(function(d){return d.Day == 'SATURDAY';})
+          //.style("fill", "lightblue")
+          .attr("r",0);
+  })
+
+var ppl=[];
+
+//Just to see if drop down menu works, can delete later
+var days_week=["Monday","Tuesday","Wednesday","Thursday","Friday",
+           "Saturday","Sunday"]
+///////////////////////////
+// Create the Google Map //
+///////////////////////////
+/*
+REFERENCES
+from: http://www.bmdata.co.uk/effective/index_map.html
+      https://bl.ocks.org/mbostock/899711
+*/
+
+var map = new google.maps.Map(d3.select("#map").node(), {
+  zoom: 10,
+  center: new google.maps.LatLng(39.85, -86.15),
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+  });
+
+
+//load data
+
+//This is an array of arrays
+/*d3.csv("output_filtered_2015_to_2018.csv", function(error,data){
+  if (error) throw error;
+
+  data.forEach(function(d){
+      d.index=d.Index;
+      d.gender=d.Gender; //import gender
+      d.day=d.Day; //import day of week (Monday, Tuesday....)
+      //d.date=d.Date; //import date of crash format: mm/dd/yyyy
+      d.date 	= parseDateCSV(d.Date);
+      ppl.push([d.index,d.gender,d.day, d.date]);
+    })
+*/
+
+//This is an array of objects
+   d3.csv("output_filtered_2015_to_2018.csv", function(error,data){
+      if (error) throw error;
+
+      data.forEach(function(d){
+        var object ={
+          index: d.Index,
+          gender: d.Gender, //import gender
+          day : d.Day, //import day of week (Monday, Tuesday....)
+          //d.date=d.Date; //import date of crash format: mm/dd/yyyy
+          date: parseDateCSV(d.Date),
+        }
+        ppl.push(object);
+        })
+
+    //Just to see if drop down menu works, can delete later
+    var selector = d3.select("body")
+  		.append("select")
+  		.attr("id", "weekselector")
+  		.selectAll("option")
+  		.data(days_week)
+  		.enter().append("option")
+  		.text(function(d) { return d; })
+  		.attr("value", function (d, i) {
+  			return i;
+  		});
+  //create overlay; overlay is the layer over the google map
+
+  var overlay= new google.maps.OverlayView();
+
+  // "Add the container when the overlay is added to the map"
+  // mbostock
+  overlay.onAdd= function(){
+    var layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
+                  .attr("class","crash")
+
+    // Draw each marker as a separate SVG element
+    // mbostock
+    overlay.draw=function(){
+
+      var projection=this.getProjection(),
+        padding = 11;
+        
+      // Pari 11/29 tooltip //
+      //  http://bl.ocks.org/jhmarcus/8185674 //
+      var tooltip = d3.select("body")
+            .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+     ////////////////////////////////////////////
+        
+      var marker = layer.selectAll("svg")
+                        .data(data)
+                        .each(transform)
+                        .enter().append("svg")
+                        .each(transform)
+                        .attr("class","marker")
+      
+  
+      // Add circle
+      circle_r=3;
+      marker.append("circle")
+            .attr("r", circle_r)
+            .attr("cx", padding)
+            .attr("cy", padding)
+            //.attr("opacity",0.5)     Pari 11/29 commented out
+            //Pari 11/29 added from   http://bl.ocks.org/jhmarcus/8185674
+            .on("mouseover", function(d){
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html("Date: "+parseDateCSV(d.Date)+"<br/>"+"Gender: "+d.Gender)
+                    .style("left", (d3.event.pageX + 5)+ "px")
+                    .style("top", (d3.event.pageY -28)+ "px");                
+            })
+            .on("mouseout", function(d){
+                tooltip.transition()  
+                .duration(200)
+                .style("opacity", 0);
+             });           
+            ///////   Pari 11/29///////////////////////
+    //add labels
+    //insert code
+
+      function transform(d){
+        d= new google.maps.LatLng(+d.Latitude, +d.Longitude);
+        d= projection.fromLatLngToDivPixel(d);
+        return d3.select(this)
+                 .style("left", (d.x-padding) + "px")
+                 .style("top", (d.y-padding)+ "px")
+        }
+      };
+    };
+    // "Bind our overlay to the map"
+    // mbostock
+    overlay.setMap(map);
+    AgeChart();
+    Weekday_Chart();
+    });
+
+</script>
+  <p>SLIDER TIMELINE</p>
+  </body>
+</html>
