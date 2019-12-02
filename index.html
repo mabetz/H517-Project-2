@@ -44,6 +44,22 @@
   stroke: black;
   stroke-width: 0.75px;
 }
+
+/* tooltip Pari 11/29 */
+   /*  http://bl.ocks.org/jhmarcus/8185674 */
+.tooltip {
+  position: absolute;
+  line-height: .7;
+  font-weight: bold;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  font-weight: bold;
+  font: 11.5px sans-serif;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
 h2,h4{
   text-align: center;
 }
@@ -138,8 +154,10 @@ d3.select('#submit')
       d3.selectAll("circle")
         .transition()
         .duration(10)
-        .filter(function(d){return d.Day == 'SATURDAY';})
-          //.style("fill", "lightblue")
+        .attr("r",3)
+        .filter(function(d){
+            return parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value);
+        })
           .attr("r",0);
   })
 
@@ -181,7 +199,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
 */
 
 //This is an array of objects
-   d3.csv("output_filtered_2015_to_2018_v2.csv", function(error,data){
+   d3.csv("output_filtered_2015_to_2018_v3.csv", function(error,data){
       if (error) throw error;
 
       data.forEach(function(d){
@@ -214,7 +232,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
   // "Add the container when the overlay is added to the map"
   // mbostock
   overlay.onAdd= function(){
-    var layer = d3.select(this.getPanes().overlayLayer).append("div")
+    var layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
                   .attr("class","crash")
 
     // Draw each marker as a separate SVG element
@@ -236,7 +254,20 @@ var map = new google.maps.Map(d3.select("#map").node(), {
             .attr("r", circle_r)
             .attr("cx", padding)
             .attr("cy", padding)
-            .attr("opacity",0.75)
+            //Pari 11/29 added from   http://bl.ocks.org/jhmarcus/8185674
+            .on("mouseover", function(d){
+                tooltip.transition()
+                    .duration(200)
+                    .style("opacity", .9);
+                tooltip.html("Date: "+parseDateCSV(d.Date)+"<br/>"+"Gender: "+d.Gender)
+                    .style("left", (d3.event.pageX + 5)+ "px")
+                    .style("top", (d3.event.pageY -28)+ "px");
+            })
+            .on("mouseout", function(d){
+                tooltip.transition()
+                .duration(200)
+                .style("opacity", 0);
+             });
 
     //add labels
     //insert code
