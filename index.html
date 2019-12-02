@@ -242,6 +242,13 @@ var map = new google.maps.Map(d3.select("#map").node(), {
       var projection=this.getProjection(),
       padding = 11;
 
+      // Pari 11/29 tooltip //
+      //  http://bl.ocks.org/jhmarcus/8185674 //
+      var tooltip = d3.select("body")
+            .append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0);
+        
       var marker = layer.selectAll("svg")
                         .data(data)
                         .each(transform)
