@@ -76,17 +76,17 @@ To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-0
   <div id="div2">
     <svg id="svg2" width="600" height="600">
 
-      <g id='agechart0' transform="translate(35,110)"/>
-      <g id='agechart1' transform="translate(35,110)"/>
-      <g id='agechart2' transform="translate(35,110)"/>
-      <g id='agechart3' transform="translate(35,110)"/>
-      <g id='agechart4' transform="translate(35,110)"/>
-      <g id='agechart5' transform="translate(35,110)"/>
-      <g id='agechart6' transform="translate(35,110)"/>
-      <g id='agechart7' transform="translate(35,110)"/>
-      <g id='agechart8' transform="translate(35,110)"/>
-      <g id='agechart9' transform="translate(35,110)"/>
-      <g id='agechart10' transform="translate(35,110)"/>
+      <g id='agechart0' transform="translate(35,60)"/>
+      <g id='agechart1' transform="translate(35,60)"/>
+      <g id='agechart2' transform="translate(35,60)"/>
+      <g id='agechart3' transform="translate(35,60)"/>
+      <g id='agechart4' transform="translate(35,60)"/>
+      <g id='agechart5' transform="translate(35,60)"/>
+      <g id='agechart6' transform="translate(35,60)"/>
+      <g id='agechart7' transform="translate(35,60)"/>
+      <g id='agechart8' transform="translate(35,60)"/>
+      <g id='agechart9' transform="translate(35,60)"/>
+      <g id='agechart10' transform="translate(35,60)"/>
 
       <text id="bar_txt" x="-200" y="50" transform="rotate(-90)">Number of Deaths</text>
 
@@ -181,7 +181,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
 */
 
 //This is an array of objects
-   d3.csv("output_filtered_2015_to_2018.csv", function(error,data){
+   d3.csv("output_filtered_2015_to_2018_v2.csv", function(error,data){
       if (error) throw error;
 
       data.forEach(function(d){
@@ -191,6 +191,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
           day : d.Day, //import day of week (Monday, Tuesday....)
           //d.date=d.Date; //import date of crash format: mm/dd/yyyy
           date: parseDateCSV(d.Date),
+          age: d.Age
         }
         ppl.push(object);
         })
