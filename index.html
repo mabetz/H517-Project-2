@@ -248,7 +248,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
             .append("div")
         .attr("class", "tooltip")
         .style("opacity", 0);
-        
+
       var marker = layer.selectAll("svg")
                         .data(data)
                         .each(transform)
@@ -266,7 +266,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
-                tooltip.html("Date: "+parseDateCSV(d.Date)+"<br/>"+"Gender: "+d.Gender)
+                tooltip.html("Date: "+parseDateCSV(d.Date)+"<br>"+"Gender: "+d.Gender)
                     .style("left", (d3.event.pageX + 5)+ "px")
                     .style("top", (d3.event.pageY -28)+ "px");
             })
