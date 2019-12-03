@@ -120,6 +120,8 @@ To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-0
 
 <script src="bars.js"></script>
 <script src="week_bars.js"></script>
+<script src="UpdateCharts.js"></script>
+
 <script>
 
 //Maggie: testing out filtering data by date
@@ -144,16 +146,7 @@ function render(filterByDates) {
 // Currently we can see the fitler in action: filtering out
 // Saturdays
 d3.select('#submit')
-  .on("click", function(data){
-      d3.selectAll("circle")
-        .transition()
-        .duration(10)
-        .attr("r",3)
-        .filter(function(d){
-            return parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value);
-        })
-          .attr("r",0);
-  })
+  .on("click", updating)
 
 var ppl=[];
 
