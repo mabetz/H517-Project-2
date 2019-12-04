@@ -3,7 +3,7 @@ var svg2= d3.select("#svg2")
 
  var MAX_BAR_HEIGHT = 150;
 
- BAR_WIDTH=30;
+ BAR_WIDTH=20;
 var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust=MAX_BAR_HEIGHT+215;
