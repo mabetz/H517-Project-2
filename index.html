@@ -194,7 +194,8 @@ var map = new google.maps.Map(d3.select("#map").node(), {
           day : d.Day, //import day of week (Monday, Tuesday....)
           //d.date=d.Date; //import date of crash format: mm/dd/yyyy
           date: parseDateCSV(d.Date),
-          age: d.Age
+          age: d.Age,
+          deaths: d.Deaths
         }
         ppl.push(object);
         })
