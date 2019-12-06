@@ -249,7 +249,15 @@ var map = new google.maps.Map(d3.select("#map").node(), {
                 tooltip.transition()
                 .duration(200)
                 .style("opacity", 0);
-             });
+             })
+            .filter(function(d){
+                return d.Road_Name.includes("I465")||
+                       d.Road_Name.includes("I65")||
+                       d.Road_Name.includes("I70")||
+                       d.Road_Name.includes("I74")||
+                       d.Road_Name.includes("I69")
+                })
+            .style("fill","blue")
 
     //add labels
     //insert code
