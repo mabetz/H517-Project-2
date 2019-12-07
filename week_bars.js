@@ -45,9 +45,9 @@ var textcenter=BAR_WIDTH/2;
      .call(xAxis_week)
      .selectAll("text")
        .attr("x", 10)
-       .style("text-anchor","start")
-       .attr("transform","translate(0,40),rotate(-45)");
-
+       .style("text-anchor","end")
+       .attr("transform","translate(0,10),rotate(-45)");
+       
 ////////////////////////////////////////////////////////
 ///////////FUNCTION Age group bar
 

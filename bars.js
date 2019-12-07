@@ -46,7 +46,8 @@ var textcenter=BAR_WIDTH/2;
      .call(xAxis_age)
      .selectAll("text")
        .attr("x", 10)
-       .style("text-anchor","start");
+       .style("text-anchor","end")
+       .attr("transform","translate(0,10),rotate(-45)");
 
 
 ////////////////////////////////////////////////////////
