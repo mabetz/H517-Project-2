@@ -24,7 +24,7 @@ var textcenter=BAR_WIDTH/2;
 
    svg2.append("g")
         .attr("class", "age axis")
-        .attr("transform", "translate(130,"+yaxis_adjust_age+")")
+        .attr("transform", "translate(435,"+yaxis_adjust_age+")")
         .call(yAxis_age);
 //Age X axis
  var age_xScale = d3.scale.ordinal()
