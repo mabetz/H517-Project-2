@@ -1,4 +1,4 @@
-function updating(){
+function updating(data){
   //output max value of weekday barcharts
   max_week_value=d3.max([
                       d3.sum(myData, function(d){
