@@ -96,8 +96,10 @@ var textcenter=BAR_WIDTH/2;
           d3.selectAll("circle")
             .transition()
             .duration(5)
-            .filter(function(d){return d.Day==group})
-              //.style("fill", "red")
+            .filter(function(d){return d.Day==group &&
+                                      parseDate(date1.value) <= parseDateCSV(d.Date) &&
+                                      parseDateCSV(d.Date) <= parseDate(date2.value)
+            })
               .attr("r",3)
               }
           })
