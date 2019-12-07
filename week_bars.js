@@ -18,31 +18,31 @@ var textcenter=BAR_WIDTH/2;
              .domain([0, max_bar_value])
              .range([0, MAX_BAR_HEIGHT]);
 
- var yAxis_age = d3.svg.axis()
+ var yAxis_week = d3.svg.axis()
            .scale(bar_yScale)
            .orient("left")
            .ticks(4);
 
    svg2.append("g")
-        .attr("class", "age axis")
+        .attr("class", "week axis")
         .attr("transform", "translate(130,"+yaxis_adjust+")")
-        .call(yAxis_age);
+        .call(yAxis_week);
 //Age X axis
- var age_xScale = d3.scale.ordinal()
+ var week_xScale = d3.scale.ordinal()
                  .domain(["Monday", "Tuesday",
                           "Wednesday", "Thursday",
                           "Friday", "Saturday",
                           "Sunday", ""])
                  .rangePoints([0, 7*(BAR_WIDTH+5)]);
 
- var xAxis_age = d3.svg.axis()
-               .scale(age_xScale)
+ var xAxis_week = d3.svg.axis()
+               .scale(week_xScale)
                .orient("bottom")
 
  svg2.append("g")
      .attr("class", "x axis")
      .attr("transform", "translate(130,520)")
-     .call(xAxis_age)
+     .call(xAxis_week)
      .selectAll("text")
        .attr("x", 10)
        .style("text-anchor","start")
