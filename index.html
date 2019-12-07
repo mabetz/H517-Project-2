@@ -60,6 +60,13 @@
   pointer-events: none;
 }
 
+.agebars {
+  transform: translate(335px,365px);
+}
+
+.weekdaybars {
+  transform: translate(20px,365px)
+}
 h2,h4{
   text-align: center;
 }
@@ -84,19 +91,19 @@ To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-0
 <div style="width:100%; overflow:hidden;">
   <div id="map"></div>
   <div id="div2">
-    <svg id="svg2" width="600" height="575">
+    <svg id="svg2" width="750" height="575">
 
-      <g id='agechart0' transform="translate(35,60)"/>
-      <g id='agechart1' transform="translate(35,60)"/>
-      <g id='agechart2' transform="translate(35,60)"/>
-      <g id='agechart3' transform="translate(35,60)"/>
-      <g id='agechart4' transform="translate(35,60)"/>
-      <g id='agechart5' transform="translate(35,60)"/>
-      <g id='agechart6' transform="translate(35,60)"/>
-      <g id='agechart7' transform="translate(35,60)"/>
-      <g id='agechart8' transform="translate(35,60)"/>
-      <g id='agechart9' transform="translate(35,60)"/>
-      <g id='agechart10' transform="translate(35,60)"/>
+      <g class='agebars' id='agechart0' />
+      <g class='agebars' id='agechart1' />
+      <g class='agebars' id='agechart2' />
+      <g class='agebars' id='agechart3' />
+      <g class='agebars' id='agechart4' />
+      <g class='agebars' id='agechart5' />
+      <g class='agebars' id='agechart6' />
+      <g class='agebars' id='agechart7' />
+      <g class='agebars' id='agechart8' />
+      <g class='agebars' id='agechart9' />
+      <g class='agebars' id='agechart10' />
 
       <text id="bar_txt" x="-200" y="50" transform="rotate(-90)">Number of Deaths</text>
 
@@ -107,13 +114,13 @@ To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-0
       <!-- Days of the Week SVG's -->
       <text x="200" y="350">Days of the Week</text>
 
-      <g id='MON' transform="translate(35,365)"/>
-      <g id='TUES' transform="translate(35,365)"/>
-      <g id='WED' transform="translate(35,365)"/>
-      <g id='THURS' transform="translate(35,365)"/>
-      <g id='FRI' transform="translate(35,365)"/>
-      <g id='SAT' transform="translate(35,365)"/>
-      <g id='SUN' transform="translate(35,365)"/>
+      <g class= 'weekdaybars' id='MON' />
+      <g class= 'weekdaybars' id='TUES' />
+      <g class= 'weekdaybars' id='WED' />
+      <g class= 'weekdaybars' id='THURS' />
+      <g class= 'weekdaybars' id='FRI' />
+      <g class= 'weekdaybars' id='SAT' />
+      <g class= 'weekdaybars' id='SUN' />
     </svg>
   </div>
 </div>

@@ -25,7 +25,7 @@ var textcenter=BAR_WIDTH/2;
 
    svg2.append("g")
         .attr("class", "week axis")
-        .attr("transform", "translate(130,"+yaxis_adjust+")")
+        .attr("transform", "translate(115,"+yaxis_adjust+")")
         .call(yAxis_week);
 //Age X axis
  var week_xScale = d3.scale.ordinal()
@@ -41,7 +41,7 @@ var textcenter=BAR_WIDTH/2;
 
  svg2.append("g")
      .attr("class", "x axis")
-     .attr("transform", "translate(130,520)")
+     .attr("transform", "translate(115,520)")
      .call(xAxis_week)
      .selectAll("text")
        .attr("x", 10)

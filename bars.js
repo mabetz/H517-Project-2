@@ -1,11 +1,11 @@
 var svg2= d3.select("#svg2")
 
- var MAX_BAR_HEIGHT_AGE = 200;
+ var MAX_BAR_HEIGHT_AGE = 150;
 
  BAR_WIDTH=20;
 var textcenter=BAR_WIDTH/2;
 
- var yaxis_adjust_age=MAX_BAR_HEIGHT_AGE-140;
+ var yaxis_adjust_age=MAX_BAR_HEIGHT_AGE+215;
  var agebar_start= 0;
  var max_bar_value_age=80
 
@@ -42,7 +42,7 @@ var textcenter=BAR_WIDTH/2;
 
  svg2.append("g")
      .attr("class", "x axis")
-     .attr("transform", "translate(130,265)")
+     .attr("transform", "translate(435,520)")
      .call(xAxis_age)
      .selectAll("text")
        .attr("x", 10)
