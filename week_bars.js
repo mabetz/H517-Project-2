@@ -125,7 +125,21 @@ var textcenter=BAR_WIDTH/2;
           .attr("font-family", "sans-serif")
           .attr("font-size", "11px")
           .attr("fill", "blue");
+ 
    }
+
+ //Pari    
+ var sum = d3.sum(data, function(d){ return d.deaths; });
+    svg2.append("text")
+        .attr("transform", "translate(" + (width+3) + "," + y(sum) + ")")
+        .attr("dy", "1em")
+        .attr("text-anchor", "end")
+        .style("fill", "red")
+        .html("Average = $" + average);       
+     
+ /////   
+
+      
 
 //////////////////Draw Age charts
 function Weekday_Chart()
