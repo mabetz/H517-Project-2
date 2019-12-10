@@ -83,7 +83,7 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(5)
+            .duration(1000)
             .filter(function(d){return d.Age==agegroup})
               //.style("fill", "lightblue")
               .attr("r",0);
