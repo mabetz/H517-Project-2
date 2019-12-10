@@ -83,11 +83,28 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(5)
+            .duration(500)
             .filter(function(d){return d.Age==agegroup})
               //.style("fill", "lightblue")
               .attr("r",0);
 
+          c_week_bars_update("#MON","MONDAY",agegroup);
+
+          c_week_bars_update("#TUES","TUESDAY",agegroup);
+
+          c_week_bars_update("#WED","WEDNESDAY",agegroup);
+
+          c_week_bars_update("#THURS","THURSDAY",agegroup);
+
+          c_week_bars_update("#FRI","FRIDAY",agegroup);
+
+          c_week_bars_update("#SAT","SATURDAY",agegroup);
+
+          c_week_bars_update("#SUN","SUNDAY",agegroup);
+
+          myData= myData.filter(function(d) {
+            return d.age != agegroup;
+          })
         }
         else{
           d3.select(this).classed("selected", false);
@@ -96,7 +113,7 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(5)
+            .duration(500)
             .filter(function(d){return d.Age==agegroup &&
                                       parseDate(date1.value) <= parseDateCSV(d.Date) &&
                                       parseDateCSV(d.Date) <= parseDate(date2.value)
