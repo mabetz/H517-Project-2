@@ -89,6 +89,11 @@ To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-0
 <input id='submit' type="button" onclick="render(true)" value="Submit" />
 </div>
 
+<!--Reset Button -->
+<div align ="left">
+  <input id="reset" type='button' onclick=reset value='Reset' />
+</div>
+
 <div style="width:100%; overflow:hidden;">
   <div id="map"></div>
   <div id="div2">
@@ -136,6 +141,7 @@ To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-0
 var	parseDate = d3.time.format("%Y-%m-%d").parse; //parse into date for easy filtering.
 var	parseDateCSV = d3.time.format("%m/%d/%Y").parse; //parse CSV file which has different format than the calendar input buttons
 
+
 function render(filterByDates) {
 
   if(filterByDates) {
@@ -157,7 +163,7 @@ d3.select('#submit')
   .on("click", updating)
 
 var ppl=[];
-
+var myData=ppl
 ///////////////////////////
 // Create the Google Map //
 ///////////////////////////
