@@ -28,7 +28,7 @@ function updating(data){
 
   d3.selectAll("circle")
     .transition()
-    .duration(10)
+    .duration(500)
     .attr("r",3)
     .filter(function(d){
         return parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value);
