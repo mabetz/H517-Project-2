@@ -192,7 +192,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
 */
 
 //This is an array of objects
-   d3.csv("output_filtered_2015_to_2018_v4.csv", function(error,data){
+   d3.csv("output_filtered_2015_to_2018_v5.csv", function(error,data){
       if (error) throw error;
 
       data.forEach(function(d){
@@ -203,7 +203,11 @@ var map = new google.maps.Map(d3.select("#map").node(), {
           //d.date=d.Date; //import date of crash format: mm/dd/yyyy
           date: parseDateCSV(d.Date),
           age: d.Age,
-          deaths: d.Deaths
+          deaths: d.Deaths,
+          cause: d.Cause,
+          time: d.Time,
+          ageAggregate: d.Age_Aggregate2
+
         }
         ppl.push(object);
         })
@@ -249,7 +253,7 @@ var map = new google.maps.Map(d3.select("#map").node(), {
                 tooltip.transition()
                     .duration(200)
                     .style("opacity", .9);
-                tooltip.html("Date: "+(d.Date)+ " Time: "+d.TimeAP+"<br>"+"Age: "+d.Age+"<br>"+"Gender: "+d.Gender)
+                tooltip.html("Date: "+(d.Date)+" Time: "+d.Time+"<br>"+"Number of Death: "+d.Deaths+"<br>"+"Age: "+d.Age_Aggregate2+"<br>"+"Gender: "+d.Gender+"<br>"+"Cause of Accident: "+d.Cause)
                     .style("left", (d3.event.pageX + 5)+ "px")
                     .style("top", (d3.event.pageY -28)+ "px");
             })
