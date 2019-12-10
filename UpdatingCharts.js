@@ -43,7 +43,7 @@ function updating(data){
        .selectAll('rect')
        .data(ppl)
        .transition()
-       .duration(100)
+       .duration(500)
        .attr("stroke","black")
        .attr("fill", "gold")
        .attr('height',function(d){
@@ -91,7 +91,7 @@ function updating(data){
          svg2.select(id).selectAll("text")
             .data(ppl)
             .transition()
-            .duration(100)
+            .duration(500)
             .text(
                    d3.sum(myData, function(d) {
                        return d.day==group;
@@ -130,7 +130,7 @@ function updating(data){
          .selectAll('rect')
          .data(ppl)
          .transition()
-         .duration(100)
+         .duration(500)
          .attr("stroke","black")
          .attr("fill", "gold")
          .attr('height',function(d){
@@ -177,7 +177,7 @@ function updating(data){
            svg2.select(id).selectAll("text")
               .data(ppl)
               .transition()
-              .duration(100)
+              .duration(500)
               .text(
                      d3.sum(myData, function(d) {
                          return d.age==agegroup;
