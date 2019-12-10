@@ -82,7 +82,7 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(1000)
+            .duration(500)
             .filter(function(d){return d.Day==group})
               //.style("fill", "lightblue")
               .attr("r",0);
@@ -95,7 +95,7 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(1000)
+            .duration(500)
             .filter(function(d){return d.Day==group &&
                                       parseDate(date1.value) <= parseDateCSV(d.Date) &&
                                       parseDateCSV(d.Date) <= parseDate(date2.value)
