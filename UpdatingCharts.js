@@ -58,33 +58,13 @@ function updating(data){
                              })
                            );
                        })
-       // .on("click",function(data){
-       //    if (!d3.select(this).classed("selected")) {
-       //      d3.select(this).classed("selected", true)
-       //      d3.select(this).transition().attr("fill","lightgray")
-       //
-       //      //update map
-       //      d3.selectAll("circle")
-       //        .transition()
-       //        .duration(10)
-       //        .filter(function(d){return d.Day==group})
-       //          //.style("fill", "lightblue")
-       //          .attr("r",0);
-       //
-       //    }
-       //    else{
-       //      d3.select(this).classed("selected", false);
-       //      d3.select(this).transition().attr("fill","gold");
-       //
-       //      //update map
-       //      d3.selectAll("circle")
-       //        .transition()
-       //        .duration(10)
-       //        .filter(function(d){return d.Day==group})
-       //          //.style("fill", "red")
-       //          .attr("r",3)
-       //          }
-       //      })
+
+    d3.select(id)
+      .selectAll('rect')
+      .on("click",function(data){
+              if (!d3.select(this).classed("selected")) {
+                d3.select(this).classed("selected", true)
+                d3.select(this).transition().attr("fill","red")
 
 
          //txt agegroup total
