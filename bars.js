@@ -96,7 +96,7 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(5)
+            .duration(1000)
             .filter(function(d){return d.Age==agegroup &&
                                       parseDate(date1.value) <= parseDateCSV(d.Date) &&
                                       parseDateCSV(d.Date) <= parseDate(date2.value)
