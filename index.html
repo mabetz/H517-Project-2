@@ -91,7 +91,7 @@ To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-0
 
 <!--Reset Button -->
 <div align ="left">
-  <input id="reset" type='button' onclick=reset value='Reset' />
+  <input id="reset" type='button' onclick="render(true)" value='Reset All' />
 </div>
 
 <div style="width:100%; overflow:hidden;">
@@ -154,13 +154,13 @@ function render(filterByDates) {
   }
 }
 
-// Action for Submit button; Shuennhau only knows how
-// to filter this way for now. Need to figure out to
-// extract dates from "myData"
-// Currently we can see the fitler in action: filtering out
-// Saturdays
+//submit button
 d3.select('#submit')
   .on("click", updating)
+
+//reset button
+d3.select('#reset')
+  .on("click", ResetAll)
 
 var ppl=[];
 var myData=ppl
