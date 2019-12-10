@@ -88,6 +88,23 @@ var textcenter=BAR_WIDTH/2;
               //.style("fill", "lightblue")
               .attr("r",0);
 
+          c_week_bars_update("#MON","MONDAY",agegroup);
+
+          c_week_bars_update("#TUES","TUESDAY",agegroup);
+
+          c_week_bars_update("#WED","WEDNESDAY",agegroup);
+
+          c_week_bars_update("#THURS","THURSDAY",agegroup);
+
+          c_week_bars_update("#FRI","FRIDAY",agegroup);
+
+          c_week_bars_update("#SAT","SATURDAY",agegroup);
+
+          c_week_bars_update("#SUN","SUNDAY",agegroup);
+
+          myData= myData.filter(function(d) {
+            return d.age != agegroup;
+          })
         }
         else{
           d3.select(this).classed("selected", false);

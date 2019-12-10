@@ -79,6 +79,7 @@ var textcenter=BAR_WIDTH/2;
           d3.select(this).classed("selected", true)
           d3.select(this).transition().attr("fill","lightgray")
 
+
           //update map
           d3.selectAll("circle")
             .transition()
@@ -86,6 +87,32 @@ var textcenter=BAR_WIDTH/2;
             .filter(function(d){return d.Day==group})
               //.style("fill", "lightblue")
               .attr("r",0);
+
+          infoage_update("#agechart0","<1Year",group);
+
+          infoage_update("#agechart1","1-4Years",group);
+
+          infoage_update("#agechart2","5-14Years",group);
+
+          infoage_update("#agechart3","15-24Years",group);
+
+          infoage_update("#agechart4","25-34Years",group);
+
+          infoage_update("#agechart5","35-44Years",group);
+
+          infoage_update("#agechart6","45-54Years",group);
+
+          infoage_update("#agechart7","55-64Years",group);
+
+          infoage_update("#agechart8","65-74Years",group);
+
+          infoage_update("#agechart9","75-84Years",group);
+
+          infoage_update("#agechart10",">=85Years",group);
+
+          myData= myData.filter(function(d) {
+            return d.day != group;
+          })
 
         }
         else{
