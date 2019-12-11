@@ -15,7 +15,7 @@
 		}
     
 		/* Set height of the grid so .sidenav can be 100% (adjust as needed) */
-		.row.content {height: 450px}
+		.row.content {height: 550px}
     
 		/* Set gray background color and 100% height */
 		.sidenav {
@@ -108,53 +108,71 @@
 
 
 <body>
-  <h2>TITLE</h2>
-  <h4>SUBTITLE</h4>
 
+<div class="navbar">
+  <h4>Project 2</h4>
+</div>
+
+<div class="container-fluid text-center">  
+	<div class="row content">
+		<div class="col-sm-2 sidenav">
 <!--This is our calendar inputs for filtering-->
-  <div align ="center">
-From : <input type="date" name="date1" id="date1"  value="2015-01-01" min="2015-01-01" max="2018-12-31" />
-To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-01-01" max="2018-12-31" /><br /><br />
-<input id='submit' type="button" onclick="render(true)" value="Submit" />
+			<div class="calendar">
+				<div align ="left">
+					From : <input type="date" name="date1" id="date1"  value="2015-01-01" min="2015-01-01" max="2018-12-31" /><br />
+					To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-01-01" max="2018-12-31" /><br />
+					<input id='submit' type="button" onclick="render(true)" value="Submit" />
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-8 text-center">
+			<div align="center">
+				<div style="width:100%; overflow:hidden;">
+					<div id="map">
+					</div>
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-sm-2 sidenav">
+			<div align="left">
+				<div id="div2">
+					<svg id="svg2" width="300" height="550">
+
+					<g id='agechart0' transform="translate(35,60)"/>
+					<g id='agechart1' transform="translate(35,60)"/>
+					<g id='agechart2' transform="translate(35,60)"/>
+					<g id='agechart3' transform="translate(35,60)"/>
+					<g id='agechart4' transform="translate(35,60)"/>
+					<g id='agechart5' transform="translate(35,60)"/>
+					<g id='agechart6' transform="translate(35,60)"/>
+					<g id='agechart7' transform="translate(35,60)"/>
+					<g id='agechart8' transform="translate(35,60)"/>
+					<g id='agechart9' transform="translate(35,60)"/>
+					<g id='agechart10' transform="translate(35,60)"/>
+
+					<text id="bar_txt" x="-200" y="50" transform="rotate(-90)">Number of Deaths</text>
+
+					<text x="20" y="40">AGE GROUP DISTRIBUTION</text>
+
+					<g id='agegroup_txt' transform="translate(100,100)"/>
+
+					<!-- Days of the Week SVG's -->
+					<text x="200" y="350">Days of the Week</text>
+
+					<g id='MON' transform="translate(35,365)"/>
+					<g id='TUES' transform="translate(35,365)"/>
+					<g id='WED' transform="translate(35,365)"/>
+					<g id='THURS' transform="translate(35,365)"/>
+					<g id='FRI' transform="translate(35,365)"/>
+					<g id='SAT' transform="translate(35,365)"/>
+					<g id='SUN' transform="translate(35,365)"/>
+					</svg>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-<div style="width:100%; overflow:hidden;">
-  <div id="map"></div>
-  <div id="div2">
-    <svg id="svg2" width="600" height="575">
-
-      <g id='agechart0' transform="translate(35,60)"/>
-      <g id='agechart1' transform="translate(35,60)"/>
-      <g id='agechart2' transform="translate(35,60)"/>
-      <g id='agechart3' transform="translate(35,60)"/>
-      <g id='agechart4' transform="translate(35,60)"/>
-      <g id='agechart5' transform="translate(35,60)"/>
-      <g id='agechart6' transform="translate(35,60)"/>
-      <g id='agechart7' transform="translate(35,60)"/>
-      <g id='agechart8' transform="translate(35,60)"/>
-      <g id='agechart9' transform="translate(35,60)"/>
-      <g id='agechart10' transform="translate(35,60)"/>
-
-      <text id="bar_txt" x="-200" y="50" transform="rotate(-90)">Number of Deaths</text>
-
-      <text x="200" y="40">AGE GROUP DISTRIBUTION</text>
-
-      <g id='agegroup_txt' transform="translate(100,100)"/>
-
-      <!-- Days of the Week SVG's -->
-      <text x="200" y="350">Days of the Week</text>
-
-      <g id='MON' transform="translate(35,365)"/>
-      <g id='TUES' transform="translate(35,365)"/>
-      <g id='WED' transform="translate(35,365)"/>
-      <g id='THURS' transform="translate(35,365)"/>
-      <g id='FRI' transform="translate(35,365)"/>
-      <g id='SAT' transform="translate(35,365)"/>
-      <g id='SUN' transform="translate(35,365)"/>
-    </svg>
-  </div>
-</div>
-
 <script src="bars.js"></script>
 <script src="week_bars.js"></script>
 <script src="UpdatingCharts.js"></script>
