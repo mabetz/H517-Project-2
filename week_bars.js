@@ -25,7 +25,7 @@ var textcenter=BAR_WIDTH/2;
 
    svg2.append("g")
         .attr("class", "week axis")
-        .attr("transform", "translate(115,"+yaxis_adjust+")")
+        .attr("transform", "translate(50,"+yaxis_adjust+")")
         .call(yAxis_week);
 //Age X axis
  var week_xScale = d3.scale.ordinal()
@@ -41,7 +41,7 @@ var textcenter=BAR_WIDTH/2;
 
  svg2.append("g")
      .attr("class", "x axis")
-     .attr("transform", "translate(115,520)")
+     .attr("transform", "translate(53,520)")
      .call(xAxis_week)
      .selectAll("text")
        .attr("x", 10)
@@ -77,8 +77,14 @@ var textcenter=BAR_WIDTH/2;
      .on("click",function(data){
         if (!d3.select(this).classed("selected")) {
           d3.select(this).classed("selected", true)
-          d3.select(this).transition().attr("fill","lightgray")
+          d3.select(this).transition().duration(1000)
+            .attr("fill","rgb(245,245,245)")
+            .attr("stroke","rgb(245,245,245)")
 
+            d3.select(id).selectAll('text')
+              .transition()
+              .duration(1000)
+              .attr("fill","rgb(245,245,245)")
 
           //update map
           d3.selectAll("circle")

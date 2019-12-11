@@ -38,7 +38,8 @@ d3.select(id)
                           return d.day==group && d.age != agegroup;
                         })
                       );
-                    });
+                    })
+        .attr("fill","blue")
 
  }
 
@@ -80,6 +81,7 @@ d3.select(id)
                         })
                       );
                     })
+        .attr("fill","blue")
 
  }
 

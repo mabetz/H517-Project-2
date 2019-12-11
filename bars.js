@@ -24,7 +24,7 @@ var textcenter=BAR_WIDTH/2;
 
    svg2.append("g")
         .attr("class", "age axis")
-        .attr("transform", "translate(435,"+yaxis_adjust_age+")")
+        .attr("transform", "translate(350,"+yaxis_adjust_age+")")
         .call(yAxis_age);
 //Age X axis
  var age_xScale = d3.scale.ordinal()
@@ -42,7 +42,7 @@ var textcenter=BAR_WIDTH/2;
 
  svg2.append("g")
      .attr("class", "x axis")
-     .attr("transform", "translate(435,520)")
+     .attr("transform", "translate(352,520)")
      .call(xAxis_age)
      .selectAll("text")
        .attr("x", 10)
@@ -78,8 +78,14 @@ var textcenter=BAR_WIDTH/2;
      .on("click",function(data){
         if (!d3.select(this).classed("selected")) {
           d3.select(this).classed("selected", true)
-          d3.select(this).transition().attr("fill","lightgray")
-
+          d3.select(this).transition().duration(1000)
+            .attr("fill","rgb(245,245,245)")
+            .attr("stroke","rgb(245,245,245)")
+            
+            d3.select(id).selectAll('text')
+              .transition()
+              .duration(1000)
+              .attr("fill","rgb(245,245,245)")
           //update map
           d3.selectAll("circle")
             .transition()
