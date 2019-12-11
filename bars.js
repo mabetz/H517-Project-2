@@ -78,13 +78,13 @@ var textcenter=BAR_WIDTH/2;
      .on("click",function(data){
         if (!d3.select(this).classed("selected")) {
           d3.select(this).classed("selected", true)
-          d3.select(this).transition().duration(1000)
+          d3.select(this).transition().duration(500)
             .attr("fill","rgb(245,245,245)")
             .attr("stroke","rgb(245,245,245)")
-            
+
             d3.select(id).selectAll('text')
               .transition()
-              .duration(1000)
+              .duration(500)
               .attr("fill","rgb(245,245,245)")
           //update map
           d3.selectAll("circle")
