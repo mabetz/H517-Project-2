@@ -50,7 +50,7 @@ var textcenter=BAR_WIDTH/2;
 
 ////////////////////////////////////////////////////////
 ///////////FUNCTION Age group bar
-
+duration_speed=300
  function c_week_bars(id,group, x_value){
  svg2.select(id)
      .selectAll('rect')
@@ -77,19 +77,19 @@ var textcenter=BAR_WIDTH/2;
      .on("click",function(data){
         if (!d3.select(this).classed("selected")) {
           d3.select(this).classed("selected", true)
-          d3.select(this).transition().duration(500)
+          d3.select(this).transition().duration(duration_speed)
             .attr("fill","rgb(245,245,245)")
             .attr("stroke","rgb(245,245,245)")
 
             d3.select(id).selectAll('text')
               .transition()
-              .duration(500)
+              .duration(duration_speed)
               .attr("fill","rgb(245,245,245)")
 
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(500)
+            .duration(duration_speed)
             .filter(function(d){return d.Day==group})
               //.style("fill", "lightblue")
               .attr("r",0);
@@ -128,7 +128,7 @@ var textcenter=BAR_WIDTH/2;
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(500)
+            .duration(duration_speed)
             .filter(function(d){return d.Day==group &&
                                       parseDate(date1.value) <= parseDateCSV(d.Date) &&
                                       parseDateCSV(d.Date) <= parseDate(date2.value)
@@ -139,19 +139,19 @@ var textcenter=BAR_WIDTH/2;
       .on("mouseover",function(data){
          if (!d3.select(this).classed("selected")) {
            d3.select(this).classed("selected", true)
-           d3.select(this).transition().duration(500)
+           d3.select(this).transition().duration(duration_speed)
              .attr("fill","rgb(245,245,245)")
              .attr("stroke","rgb(245,245,245)")
 
              d3.select(id).selectAll('text')
                .transition()
-               .duration(500)
+               .duration(duration_speed)
                .attr("fill","rgb(245,245,245)")
 
            //update map
            d3.selectAll("circle")
              .transition()
-             .duration(500)
+             .duration(duration_speed)
              .filter(function(d){return d.Day==group})
                //.style("fill", "lightblue")
                .attr("r",0);
@@ -182,13 +182,13 @@ var textcenter=BAR_WIDTH/2;
          })
          .on("mouseout",function(data){
            d3.select(this).classed("selected", false);
-           d3.select(this).transition().duration(500)
+           d3.select(this).transition().duration(duration_speed)
              .attr("fill","gold")
              .attr("stroke","black")
 
              d3.select(id).selectAll('text')
                .transition()
-               .duration(500)
+               .duration(duration_speed)
                .attr("fill","blue")
 
              infoage_update("#agechart0","<1Year")
@@ -215,7 +215,7 @@ var textcenter=BAR_WIDTH/2;
            //update map
            d3.selectAll("circle")
              .transition()
-             .duration(500)
+             .duration(duration_speed)
              .filter(function(d){return d.Day==group &&
                                        parseDate(date1.value) <= parseDateCSV(d.Date) &&
                                        parseDateCSV(d.Date) <= parseDate(date2.value)
