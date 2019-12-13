@@ -136,7 +136,92 @@ var textcenter=BAR_WIDTH/2;
               .attr("r",3)
               }
           })
+      .on("mouseover",function(data){
+         if (!d3.select(this).classed("selected")) {
+           d3.select(this).classed("selected", true)
+           d3.select(this).transition().duration(500)
+             .attr("fill","rgb(245,245,245)")
+             .attr("stroke","rgb(245,245,245)")
 
+             d3.select(id).selectAll('text')
+               .transition()
+               .duration(500)
+               .attr("fill","rgb(245,245,245)")
+
+           //update map
+           d3.selectAll("circle")
+             .transition()
+             .duration(500)
+             .filter(function(d){return d.Day==group})
+               //.style("fill", "lightblue")
+               .attr("r",0);
+
+           infoage_update("#agechart0","<1Year",group);
+
+           infoage_update("#agechart1","1-4Years",group);
+
+           infoage_update("#agechart2","5-14Years",group);
+
+           infoage_update("#agechart3","15-24Years",group);
+
+           infoage_update("#agechart4","25-34Years",group);
+
+           infoage_update("#agechart5","35-44Years",group);
+
+           infoage_update("#agechart6","45-54Years",group);
+
+           infoage_update("#agechart7","55-64Years",group);
+
+           infoage_update("#agechart8","65-74Years",group);
+
+           infoage_update("#agechart9","75-84Years",group);
+
+           infoage_update("#agechart10",">=85Years",group);
+
+          }
+         })
+         .on("mouseout",function(data){
+           d3.select(this).classed("selected", false);
+           d3.select(this).transition().duration(500)
+             .attr("fill","gold")
+             .attr("stroke","black")
+
+             d3.select(id).selectAll('text')
+               .transition()
+               .duration(500)
+               .attr("fill","blue")
+
+             infoage_update("#agechart0","<1Year")
+
+             infoage_update("#agechart1","1-4Years")
+
+             infoage_update("#agechart2","5-14Years")
+
+             infoage_update("#agechart3","15-24Years")
+
+             infoage_update("#agechart4","25-34Years")
+
+             infoage_update("#agechart5","35-44Years")
+
+             infoage_update("#agechart6","45-54Years")
+
+             infoage_update("#agechart7","55-64Years")
+
+             infoage_update("#agechart8","65-74Years")
+
+             infoage_update("#agechart9","75-84Years")
+
+             infoage_update("#agechart10",">=85Years")
+           //update map
+           d3.selectAll("circle")
+             .transition()
+             .duration(500)
+             .filter(function(d){return d.Day==group &&
+                                       parseDate(date1.value) <= parseDateCSV(d.Date) &&
+                                       parseDateCSV(d.Date) <= parseDate(date2.value)
+             })
+               .attr("r",3)
+           })
        //txt agegroup total
        svg2.select(id).selectAll("text")
           .data(ppl)
@@ -158,6 +243,29 @@ var textcenter=BAR_WIDTH/2;
           .attr("font-family", "sans-serif")
           .attr("font-size", "11px")
           .attr("fill", "blue");
+
+
+     //txt agegroup total
+     svg2.select(id).selectAll("text")
+        .data(ppl)
+        .enter()
+        .append("text")
+        .text(
+               d3.sum(ppl, function(d) {
+                   return d.day==group;
+            })
+          )
+        .attr("text-anchor", "middle")
+        .attr("x", (x_value+textcenter))
+        .attr("y", function(d){
+                      return (weekbar_start-5) + bar_yScale(d3.sum(ppl, function(d) {
+                          return d.day==group;
+                        })
+                      );
+                    })
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "blue");
    }
 
 //////////////////Draw Age charts
