@@ -28,7 +28,7 @@ var yAxis = d3.svg.axis()
     .ticks(8);
 
 
-var movebar_side=130
+var movebar_side=40
 var movebar_down=40
 
 
