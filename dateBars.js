@@ -38,23 +38,23 @@ var graph = d3.csv("output_filtered_2015_to_2018_v5_DeathBar.csv", function(data
   });
 
 //update on filter//////////////////
-//var	parseDate = d3.time.format("%Y-%m-%d").parse;
-//function getDates() {
-//	   return [document.getElementById('date1').value, 
-//                document.getElementById('date2').value];    
-//}  
-//
-//function render(filterByDates) {
-//
-//	d3.select('svg').remove();
-//
-//	if(filterByDates) {
-//        var date1 = parseDate(document.getElementById('date1').value);
-//		var date2 = parseDate(document.getElementById('date2').value);
-//            graph = graph.filter(function(d) {
-//						return d.dates >= date1 && d.dates <= date2;
-//            });
-//        } 
+var	parseDate = d3.time.format("%Y-%m-%d").parse;
+function getDates() {
+	   return [document.getElementById('date1').value, 
+                document.getElementById('date2').value];    
+}  
+
+function render(filterByDates) {
+
+	d3.select('svg').remove();
+
+	if(filterByDates) {
+        var date1 = parseDate(document.getElementById('date1').value);
+		var date2 = parseDate(document.getElementById('date2').value);
+            graph = graph.filter(function(d) {
+						return d.dates >= date1 && d.dates <= date2;
+            });
+        } 
  //////////////////////////////////// 
     
     
@@ -116,8 +116,8 @@ svg2.call(tip);
       .attr("transform","translate("+movebar_side+","+movebar_down+")");
     
      ///added for update on filter     
-      //}
-    //render(false);
+      }
+    render(false);
 });
 
                    
