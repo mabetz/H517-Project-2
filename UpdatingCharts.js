@@ -2,9 +2,11 @@
 ///////////FUNCTION Update Weekday Chart //////////////
 
 function c_week_bars_update(id,group,agegroup){
+weekbar_sum=d3.sum(myData, function(d) {
+                  return d.day==group && d.age != agegroup;})
+
 d3.select(id)
    .selectAll('rect')
-   .data(ppl)
    .transition()
    .duration(500)
    .attr("stroke","black")
@@ -20,12 +22,11 @@ d3.select(id)
                              return d.day==group && d.age != agegroup;
                          })
                        );
-                   })
+                   });
 
 
      //txt agegroup total
      svg2.select(id).selectAll("text")
-        .data(ppl)
         .transition()
         .duration(500)
         .text(
@@ -44,29 +45,32 @@ d3.select(id)
  }
 
 function infoage_update(id,agegroup, group){
-d3.select(id)
-   .selectAll('rect')
-   .data(ppl)
-   .transition()
-   .duration(500)
-   .attr("stroke","black")
-   .attr("fill", "gold")
-   .attr('height',function(d){
-         return bar_age_hScale(d3.sum(myData, function(d) {
-                           return d.age==agegroup && d.day != group;
-                       })
-                     );
-                   })
-   .attr("y", function(d){
-         return agebar_start + bar_age_yScale(d3.sum(myData, function(d) {
-                             return d.age==agegroup && d.day != group;
-                         })
-                       );
-                   })
+  barsum=d3.sum(myData, function(d) {
+                    return d.age==agegroup && d.day != group;
+                })
+
+    d3.select(id)
+       .selectAll('rect')
+       .transition()
+       .duration(500)
+       .attr("stroke","black")
+       .attr("fill", "gold")
+       .attr('height',function(d){
+             return bar_age_hScale(d3.sum(myData, function(d) {
+                               return d.age==agegroup && d.day != group;
+                           })
+                         );
+                     })
+
+       .attr("y", function(d){
+             return agebar_start + bar_age_yScale(d3.sum(myData, function(d) {
+                                 return d.age==agegroup && d.day != group;
+                             })
+                           );
+                     })
 
      //txt agegroup total
      svg2.select(id).selectAll("text")
-        .data(ppl)
         .transition()
         .duration(500)
         .text(
@@ -82,10 +86,10 @@ d3.select(id)
                       );
                     })
         .attr("fill","blue")
-
+      
  }
 
-function updating(data){
+function updating(){
   //output max value of weekday barcharts
   max_week_value=d3.max([
                       d3.sum(myData, function(d){

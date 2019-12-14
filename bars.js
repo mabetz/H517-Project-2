@@ -76,8 +76,8 @@ var textcenter=BAR_WIDTH/2;
                          );
                      })
      .on("click",function(data){
-        if (!d3.select(this).classed("selected")) {
-          d3.select(this).classed("selected", true)
+        // if (!d3.select(this).classed("selected")) {
+        //   d3.select(this).classed("selected", true)
           d3.select(this).transition().duration(500)
             .attr("fill","rgb(245,245,245)")
             .attr("stroke","rgb(245,245,245)")
@@ -111,22 +111,22 @@ var textcenter=BAR_WIDTH/2;
           myData= myData.filter(function(d) {
             return d.age != agegroup;
           })
-        }
-        else{
-          d3.select(this).classed("selected", false);
-          d3.select(this).transition().attr("fill","gold");
-
-          //update map
-          d3.selectAll("circle")
-            .transition()
-            .duration(500)
-            .filter(function(d){return d.Age==agegroup &&
-                                      parseDate(date1.value) <= parseDateCSV(d.Date) &&
-                                      parseDateCSV(d.Date) <= parseDate(date2.value)
-            })
-              .attr("r",3)
-              }
-          })
+        })
+        // else{
+        //   d3.select(this).classed("selected", false);
+        //   d3.select(this).transition().attr("fill","gold");
+        //
+        //   //update map
+        //   d3.selectAll("circle")
+        //     .transition()
+        //     .duration(500)
+        //     .filter(function(d){return d.Age==agegroup &&
+        //                               parseDate(date1.value) <= parseDateCSV(d.Date) &&
+        //                               parseDateCSV(d.Date) <= parseDate(date2.value)
+        //     })
+        //       .attr("r",3)
+        //       }
+        //   })
 
        //txt agegroup total
        svg2.select(id).selectAll("text")

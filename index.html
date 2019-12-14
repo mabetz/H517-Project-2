@@ -221,10 +221,12 @@
       d3.select('#reset')
       .on("click", function(){
         myData=ppl;
+
         d3.select('#date1')
           .property("value","2015-01-01");
         d3.select('#date2')
           .property("value","2018-12-31");
+          
         updating();
       })
       var ppl=[];
