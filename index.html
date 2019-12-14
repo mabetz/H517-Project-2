@@ -10,6 +10,7 @@
 
   <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
   <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
   <style>
 
@@ -31,6 +32,43 @@
     stroke: black;
     shape-rendering: crispEdges;
   }
+
+
+/* Pari tooltip datebar   */
+
+.bar:hover {
+fill: orangered;
+}
+
+.d3-tip {
+line-height: 1;
+font-weight: bold;
+padding: 12px;
+background: rgba(0, 0, 0, 0.8);
+color: #fff;
+border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+box-sizing: border-box;
+display: inline;
+font-size: 10px;
+width: 100%;
+line-height: 1;
+color: rgba(0, 0, 0, 0.8);
+content: "\25BC";
+position: absolute;
+text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+margin: -1px 0 0 0;
+top: 100%;
+left: 0;
+}
+
   .tick text {
     fill: black;
     font-size: 11px;
@@ -345,7 +383,7 @@
         overlay.setMap(map);
         AgeChart();
         Weekday_Chart();
-        
+
         });
       </script>
 
