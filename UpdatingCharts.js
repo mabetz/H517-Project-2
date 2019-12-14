@@ -41,6 +41,7 @@ d3.select(id)
                       );
                     })
         .attr("fill","blue")
+        
 
  }
 
@@ -86,7 +87,7 @@ function infoage_update(id,agegroup, group){
                       );
                     })
         .attr("fill","blue")
-      
+
  }
 
 function updating(){
@@ -120,7 +121,7 @@ function updating(){
   d3.selectAll("circle")
     .transition()
     .duration(500)
-    .attr("r",3)
+    .attr("r",circle_r)
     .filter(function(d){
         return parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value);
     })

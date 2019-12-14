@@ -183,7 +183,7 @@
           <g id='agegroup_txt' transform="translate(100,100)"/>
 
           <!-- Days of the Week SVG's -->
-          <text x="50" y="340">Days of the Week</text>
+          <text x="70" y="340">DAYS OF THE WEEK</text>
 
           <g class= 'weekdaybars' id='MON' />
           <g class= 'weekdaybars' id='TUES' />
@@ -192,6 +192,7 @@
           <g class= 'weekdaybars' id='FRI' />
           <g class= 'weekdaybars' id='SAT' />
           <g class= 'weekdaybars' id='SUN' />
+
         </svg>
       </div>
     </div>
@@ -226,7 +227,7 @@
           .property("value","2015-01-01");
         d3.select('#date2')
           .property("value","2018-12-31");
-          
+
         updating();
       })
       var ppl=[];
@@ -301,7 +302,7 @@
                             .each(transform)
                             .attr("class","marker")
           // Add circle
-          circle_r=3;
+          circle_r=4;
           marker.append("circle")
                 .attr("r", circle_r)
                 .attr("cx", padding)
@@ -344,6 +345,7 @@
         overlay.setMap(map);
         AgeChart();
         Weekday_Chart();
+        
         });
       </script>
 

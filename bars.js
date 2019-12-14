@@ -7,7 +7,7 @@ var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust_age=MAX_BAR_HEIGHT_AGE+215;
  var agebar_start= 0;
- var max_bar_value_age=80
+ var max_bar_value_age=65
 
  var bar_age_yScale = d3.scale.linear()
             .domain([0,max_bar_value_age])
@@ -78,7 +78,8 @@ var textcenter=BAR_WIDTH/2;
      .on("click",function(data){
         // if (!d3.select(this).classed("selected")) {
         //   d3.select(this).classed("selected", true)
-          d3.select(this).transition().duration(500)
+          d3.select(this).on("mouseout",null)
+            .transition().duration(500)
             .attr("fill","rgb(245,245,245)")
             .attr("stroke","rgb(245,245,245)")
 
@@ -124,7 +125,7 @@ var textcenter=BAR_WIDTH/2;
         //                               parseDate(date1.value) <= parseDateCSV(d.Date) &&
         //                               parseDateCSV(d.Date) <= parseDate(date2.value)
         //     })
-        //       .attr("r",3)
+        //       .attr("r",circle_r)
         //       }
         //   })
 

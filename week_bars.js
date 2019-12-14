@@ -8,7 +8,7 @@ var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust=MAX_BAR_HEIGHT+215;
  var weekbar_start= 0;
- var max_bar_value=90;
+ var max_bar_value=65;
 
  var bar_yScale = d3.scale.linear()
             .domain([0,max_bar_value])
@@ -77,7 +77,8 @@ var textcenter=BAR_WIDTH/2;
      .on("click",function(){
         // if (!d3.select(this).classed("selected")) {
         //   d3.select(this).classed("selected", true)
-          d3.select(this).transition().duration(500)
+          d3.select(this).on("mouseout",null)
+            .transition().duration(500)
             .attr("fill","rgb(245,245,245)")
             .attr("stroke","rgb(245,245,245)")
 
@@ -133,7 +134,7 @@ var textcenter=BAR_WIDTH/2;
         //                               parseDate(date1.value) <= parseDateCSV(d.Date) &&
         //                               parseDateCSV(d.Date) <= parseDate(date2.value)
         //     })
-        //       .attr("r",3)
+        //       .attr("r",circle_r)
         //       }
           // })
       // .on("mouseover",function(data){
@@ -214,13 +215,14 @@ var textcenter=BAR_WIDTH/2;
       //        infoage_update("#agechart10",">=85Years")
       //      //update map
       //      d3.selectAll("circle")
-      //        .transition()
+      //        .transition("outpoint")
       //        .duration(500)
-      //        .filter(function(d){return d.Day==group &&
+      //        .filter(function(d){
+      //          return d.Day==group &&
       //                                  parseDate(date1.value) <= parseDateCSV(d.Date) &&
       //                                  parseDateCSV(d.Date) <= parseDate(date2.value)
       //        })
-      //          .attr("r",3)
+      //          .attr("r",circle_r)
       //      })
 
        //txt agegroup total
