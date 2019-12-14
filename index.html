@@ -1,296 +1,405 @@
-
-
 <!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-<style>
+  <title>Indiana Motor Vehicle Deaths</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-/* map placement; auto-scale base on window size */
-#map{
-  width: 600px;
-  height: 550px;
-  margin: 10;
-  padding: 0;
-  border: solid 1px gray;
-  float:left;
-}
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
+  <script src="//d3js.org/d3.v3.min.js"></script>
+  <script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
+  
+  <style>
 
-#div2 {
-  margin-left: : 650px;
-  border: solid 1px blue;
-}
+  /* map placement; auto-scale base on window size */
+  #map{
+    width: 550px;
+    height: 550px;
+    margin: 10;
+    border: solid 1px gray;
+    float:left;
+  }
+  #div2 {
+    width: 200px;
+    margin-left: : 650px;
+    border: solid 1px none;
+  }
+  .axis path, .axis line {
+    fill: none;
+    stroke: black;
+    shape-rendering: crispEdges;
+  }
+ 
+      
+/* Pari tooltip datebar   */ 
+    
+  .bar:hover {   
+      fill: orangered;
+  }
+      
+   .d3-tip {
+     line-height: 1;
+     font-weight: bold;
+     padding: 12px;
+     background: rgba(0, 0, 0, 0.8);
+     color: #fff;
+     border-radius: 2px;
+   }
+   
+   /* Creates a small triangle extender for the tooltip */
+   .d3-tip:after {
+     box-sizing: border-box;
+     display: inline;
+     font-size: 10px;
+     width: 100%;
+     line-height: 1;
+     color: rgba(0, 0, 0, 0.8);
+     content: "\25BC";
+     position: absolute;
+     text-align: center;
+   }
 
-.axis path, .axis line {
-  fill: none;
-  stroke: black;
-  shape-rendering: crispEdges;
-}
-.tick text {
-  fill: black;
-  font-size: 11px;
-}
+   /* Style northward tooltips differently */
+   .d3-tip.n:after {
+     margin: -1px 0 0 0;
+     top: 100%;
+     left: 0;
+   }      
+  
+   /***********/
+      
+  .tick text {
+    fill: black;
+    font-size: 11px;
+  }
+  /* circle position on overlay */
+  .crash, .crash svg {
+    position: absolute;
+    /*border: solid 1px green;*/
+    width:20px;
+    height:20px;
+  }
+  /* circle attribute */
+  .crash circle {
+    fill: red;
+    stroke: black;
+    stroke-width: 0.75px;
+  }
+  /* tooltip Pari */
+    .tooltip {
+    position: absolute;
+    line-height: .7;
+    font-weight: bold;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-weight: bold;
+    font: 11.5px sans-serif;
+    border-radius: 2px;
+    pointer-events: none;
+  }
+  .agebars {
+    transform: translate(255px,365px);
+  }
+  .weekdaybars {
+    transform: translate(-43px,365px)
+  }
+  h2,h4{
+    text-align: center;
+  }
 
-/* circle position on overlay */
-.crash, .crash svg {
-  position: absolute;
-  /*border: solid 1px green;*/
-  width:20px;
-  height:20px;
-}
+    /* Remove the navbar's default margin-bottom and rounded borders */
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
 
-/* circle attribute */
-.crash circle {
-  fill: red;
-  stroke: black;
-  stroke-width: 0.75px;
-}
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    .row.content {height: 450px}
 
-/* tooltip Pari 11/29 */
-   /*  http://bl.ocks.org/jhmarcus/8185674 */
-.tooltip {
-  position: absolute;
-  line-height: .7;
-  font-weight: bold;
-  padding: 8px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  font-weight: bold;
-  font: 11.5px sans-serif;
-  border-radius: 2px;
-  pointer-events: none;
-}
+    /* Set gray background color and 100% height */
+    .sidenav {
+      padding-top: 20px;
+      background-color: #f1f1f1;
+      height: 130%;
+      width: 180px;
+    }
 
-.agebars {
-  transform: translate(335px,365px);
-}
 
-.weekdaybars {
-  transform: translate(20px,365px)
-}
-h2,h4{
-  text-align: center;
-}
+    header {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
+    /* Set black background color, white text and some padding */
+    footer {
+      background-color: #555;
+      color: white;
+      padding: 15px;
+    }
 
-</style>
+    /* On small screens, set height to 'auto' for sidenav and grid */
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+  </style>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFrhgjCQZ2PFopQA00L-yh8aknCBN2v74">  </script>
-<script src="//d3js.org/d3.v3.min.js"></script>
-<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.v0.6.3.js"></script>
 
 </head>
 <body>
-  <h2>TITLE</h2>
-  <h4>SUBTITLE</h4>
 
-<!--This is our calendar inputs for filtering-->
-  <div align ="center">
-From : <input type="date" name="date1" id="date1"  value="2015-01-01" min="2015-01-01" max="2018-12-31" />
-To :   <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-01-01" max="2018-12-31" /><br /><br />
-<input id='submit' type="button" onclick="render(true)" value="Submit" />
-</div>
+  <header class="container-fluid text-center">
+      <h4>Indiana Motor Vehicle Deaths</h4>
+    </header>
 
-<div style="width:100%; overflow:hidden;">
-  <div id="map"></div>
-  <div id="div2">
-    <svg id="svg2" width="750" height="575">
 
-      <g class='agebars' id='agechart0' />
-      <g class='agebars' id='agechart1' />
-      <g class='agebars' id='agechart2' />
-      <g class='agebars' id='agechart3' />
-      <g class='agebars' id='agechart4' />
-      <g class='agebars' id='agechart5' />
-      <g class='agebars' id='agechart6' />
-      <g class='agebars' id='agechart7' />
-      <g class='agebars' id='agechart8' />
-      <g class='agebars' id='agechart9' />
-      <g class='agebars' id='agechart10' />
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
 
-      <text id="bar_txt" x="-500" y="50" transform="rotate(-90)">Number of Deaths</text>
+      <div class="calendar">
+        <div align ="left">
+          Date From: <br>
+          <input type="date" name="date1" id="date1"  value="2015-01-01" min="2015-01-01" max="2018-12-31" /><br />
+          <br>
+          Date To: <br>
+          <input type="date" name="date1" id="date2" value="2018-12-31" min="2015-01-01" max="2018-12-31" /><br />
+          <br>
+          Time From: <br>
+          <input type="time" name="time1" id="time1"  value="00:00" /><br />
+          <br>
+          Time To: <br>
+          <input type="time" name="time1" id="time2" value="23:59"  /><br />
+          <br>
 
-      <text x="480" y="340">AGE GROUP DISTRIBUTION</text>
 
-      <g id='agegroup_txt' transform="translate(100,100)"/>
+          <input id='submit' type="button" onclick="render(true)" value="Submit" />
+        <!--Reset Button -->
+          <input id="reset" type='button' onclick="render(true)" value='Reset All' />
+        </div>
+      </div>
+    </div>
+    <!-- class calendar break -->
 
-      <!-- Days of the Week SVG's -->
-      <text x="150" y="340">Days of the Week</text>
+    <div class="col-sm-5 text-left">
+      <div align="center">
+				<div style="width:100%; overflow:hidden;">
+					<div id="map">
+					</div>
+				</div>
+			</div>
 
-      <g class= 'weekdaybars' id='MON' />
-      <g class= 'weekdaybars' id='TUES' />
-      <g class= 'weekdaybars' id='WED' />
-      <g class= 'weekdaybars' id='THURS' />
-      <g class= 'weekdaybars' id='FRI' />
-      <g class= 'weekdaybars' id='SAT' />
-      <g class= 'weekdaybars' id='SUN' />
-    </svg>
+    </div>
+
+    <div class="col-sm-5 ">
+
+      <div id="div2">
+        <svg id="svg2" width="750" height="575">
+
+          <g class='agebars' id='agechart0' />
+          <g class='agebars' id='agechart1' />
+          <g class='agebars' id='agechart2' />
+          <g class='agebars' id='agechart3' />
+          <g class='agebars' id='agechart4' />
+          <g class='agebars' id='agechart5' />
+          <g class='agebars' id='agechart6' />
+          <g class='agebars' id='agechart7' />
+          <g class='agebars' id='agechart8' />
+          <g class='agebars' id='agechart9' />
+          <g class='agebars' id='agechart10' />
+
+          <text id="bar_txt" x="-500" y="10" transform="rotate(-90)">Number of Deaths</text>
+
+          <text x="380" y="340">AGE GROUP DISTRIBUTION</text>
+
+          <g id='agegroup_txt' transform="translate(100,100)"/>
+
+          <!-- Days of the Week SVG's -->
+          <text x="75" y="340">DAYS OF THE WEEK</text>
+
+          <g class= 'weekdaybars' id='MON' />
+          <g class= 'weekdaybars' id='TUES' />
+          <g class= 'weekdaybars' id='WED' />
+          <g class= 'weekdaybars' id='THURS' />
+          <g class= 'weekdaybars' id='FRI' />
+          <g class= 'weekdaybars' id='SAT' />
+          <g class= 'weekdaybars' id='SUN' />
+
+        </svg>
+      </div>
+    </div>
+
+      <script src="bars.js"></script>
+      <script src="week_bars.js"></script>
+      <script src="UpdatingCharts.js"></script>
+      <script src="dateBars.js"></script>
+
+      <script>
+      //Maggie: testing out filtering data by date
+      var	parseDate = d3.time.format("%Y-%m-%d").parse; //parse into date for easy filtering.
+      var	parseDateCSV = d3.time.format("%m/%d/%Y").parse; //parse CSV file which has different format than the calendar input buttons
+      function render(filterByDates) {
+      if(filterByDates) {
+        var date1 = parseDate(document.getElementById('date1').value);
+        var date2 = parseDate(document.getElementById('date2').value);
+        myData = ppl.filter(function(d) {
+          return d.date >= date1 && d.date <= date2;
+        });
+      }
+      }
+      //submit button
+      d3.select('#submit')
+      .on("click", updating)
+      //reset button
+      d3.select('#reset')
+      .on("click", function(){
+        myData=ppl;
+
+        d3.select('#date1')
+          .property("value","2015-01-01");
+        d3.select('#date2')
+          .property("value","2018-12-31");
+
+        updating();
+      })
+      var ppl=[];
+      var myData=ppl
+      ///////////////////////////
+      // Create the Google Map //
+      ///////////////////////////
+      /*
+      REFERENCES
+      from: http://www.bmdata.co.uk/effective/index_map.html
+          https://bl.ocks.org/mbostock/899711
+      */
+      var map = new google.maps.Map(d3.select("#map").node(), {
+      zoom: 10,
+      draggableCursor: 'crosshair',
+      center: new google.maps.LatLng(39.85, -86.15),
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+      });
+      //load data
+      //This is an array of arrays
+      /*d3.csv("output_filtered_2015_to_2018.csv", function(error,data){
+      if (error) throw error;
+      data.forEach(function(d){
+          d.index=d.Index;
+          d.gender=d.Gender; //import gender
+          d.day=d.Day; //import day of week (Monday, Tuesday....)
+          //d.date=d.Date; //import date of crash format: mm/dd/yyyy
+          d.date 	= parseDateCSV(d.Date);
+          ppl.push([d.index,d.gender,d.day, d.date]);
+        })
+      */
+      //This is an array of objects
+       d3.csv("output_filtered_2015_to_2018_v5.csv", function(error,data){
+          if (error) throw error;
+          data.forEach(function(d){
+            var object ={
+              index: d.Index,
+              gender: d.Gender, //import gender
+              day : d.Day, //import day of week (Monday, Tuesday....)
+              //d.date=d.Date; //import date of crash format: mm/dd/yyyy
+              date: parseDateCSV(d.Date),
+              age: d.Age,
+              deaths: d.Deaths,
+              cause: d.Cause,
+              time: d.Time,
+              ageAggregate: d.Age_Aggregate2
+            }
+            ppl.push(object);
+            })
+      //create overlay; overlay is the layer over the google map
+      var overlay= new google.maps.OverlayView();
+      // "Add the container when the overlay is added to the map"
+      // mbostock
+      overlay.onAdd= function(){
+        var layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
+                      .attr("class","crash")
+        // Draw each marker as a separate SVG element
+        // mbostock
+        overlay.draw=function(){
+          var projection=this.getProjection(),
+          padding = 11;
+          // Pari 11/29 tooltip //
+          //  http://bl.ocks.org/jhmarcus/8185674 //
+          var tooltip = d3.select("body")
+                .append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 0);
+          var marker = layer.selectAll("svg")
+                            .data(data)
+                            .each(transform)
+                            .enter().append("svg")
+                            .each(transform)
+                            .attr("class","marker")
+          // Add circle
+          circle_r=4;
+          marker.append("circle")
+                .attr("r", circle_r)
+                .attr("cx", padding)
+                .attr("cy", padding)
+                //Pari 11/29 added from   http://bl.ocks.org/jhmarcus/8185674
+                .on("mouseover", function(d){
+                    tooltip.transition()
+                        .duration(200)
+                        .style("opacity", .9);
+                    tooltip.html("Date: "+(d.Date)+" Time: "+d.Time+"<br>"+"Number of Death: "+d.Deaths+"<br>"+"Age: "+d.Age_Aggregate2+"<br>"+"Gender: "+d.Gender+"<br>"+"Cause of Accident: "+d.Cause)
+                        .style("left", (d3.event.pageX + 5)+ "px")
+                        .style("top", (d3.event.pageY -28)+ "px");
+                })
+                .on("mouseout", function(d){
+                    tooltip.transition()
+                    .duration(200)
+                    .style("opacity", 0);
+                 })
+                .filter(function(d){
+                    return d.Road_Name.includes("I465")||
+                           d.Road_Name.includes("I65")||
+                           d.Road_Name.includes("I70")||
+                           d.Road_Name.includes("I74")||
+                           d.Road_Name.includes("I69")
+                    })
+                .style("fill","blue")
+        //add labels
+        //insert code
+          function transform(d){
+            d= new google.maps.LatLng(+d.Latitude, +d.Longitude);
+            d= projection.fromLatLngToDivPixel(d);
+            return d3.select(this)
+                     .style("left", (d.x-padding) + "px")
+                     .style("top", (d.y-padding)+ "px")
+            }
+          };
+        };
+        // "Bind our overlay to the map"
+        // mbostock
+        overlay.setMap(map);
+        AgeChart();
+        Weekday_Chart();
+
+        });
+      </script>
+
+
+
+
+    </div>
+
   </div>
 </div>
 
-<script src="bars.js"></script>
-<script src="week_bars.js"></script>
-<script src="UpdatingCharts.js"></script>
-<script src="dateBars.js"></script>
+<footer class="container-fluid text-center">
+  <p>IUPUI H517 - Project 2 - Developed by Margaret Betz, Pari Brown, Shuennhau Chang, and Eric Graves</p>
+  <p><a href="#" style="color:white">Documentation     </a> &#8226; <a href="#" style="color:white">Video Tutorial </a> &#8226; <a href="https://hub.mph.in.gov/dataset/aries-crash-data-2007-2017" style="color:white">Data Source</a></p>
+</footer>
 
-<script>
-
-//Maggie: testing out filtering data by date
-var	parseDate = d3.time.format("%Y-%m-%d").parse; //parse into date for easy filtering.
-var	parseDateCSV = d3.time.format("%m/%d/%Y").parse; //parse CSV file which has different format than the calendar input buttons
-
-function render(filterByDates) {
-
-  if(filterByDates) {
-    var date1 = parseDate(document.getElementById('date1').value);
-    var date2 = parseDate(document.getElementById('date2').value);
-
-    myData = ppl.filter(function(d) {
-      return d.date >= date1 && d.date <= date2;
-    });
-  }
-}
-
-// Action for Submit button; Shuennhau only knows how
-// to filter this way for now. Need to figure out to
-// extract dates from "myData"
-// Currently we can see the fitler in action: filtering out
-// Saturdays
-d3.select('#submit')
-  .on("click", updating)
-
-var ppl=[];
-
-///////////////////////////
-// Create the Google Map //
-///////////////////////////
-/*
-REFERENCES
-from: http://www.bmdata.co.uk/effective/index_map.html
-      https://bl.ocks.org/mbostock/899711
-*/
-
-var map = new google.maps.Map(d3.select("#map").node(), {
-  zoom: 10,
-  draggableCursor: 'crosshair',
-  center: new google.maps.LatLng(39.85, -86.15),
-  mapTypeId: google.maps.MapTypeId.ROADMAP
-  });
-
-
-//load data
-
-//This is an array of arrays
-/*d3.csv("output_filtered_2015_to_2018.csv", function(error,data){
-  if (error) throw error;
-
-  data.forEach(function(d){
-      d.index=d.Index;
-      d.gender=d.Gender; //import gender
-      d.day=d.Day; //import day of week (Monday, Tuesday....)
-      //d.date=d.Date; //import date of crash format: mm/dd/yyyy
-      d.date 	= parseDateCSV(d.Date);
-      ppl.push([d.index,d.gender,d.day, d.date]);
-    })
-*/
-
-//This is an array of objects
-   d3.csv("output_filtered_2015_to_2018_v4.csv", function(error,data){
-      if (error) throw error;
-
-      data.forEach(function(d){
-        var object ={
-          index: d.Index,
-          gender: d.Gender, //import gender
-          day : d.Day, //import day of week (Monday, Tuesday....)
-          //d.date=d.Date; //import date of crash format: mm/dd/yyyy
-          date: parseDateCSV(d.Date),
-          age: d.Age,
-          deaths: d.Deaths
-        }
-        ppl.push(object);
-        })
-
-  //create overlay; overlay is the layer over the google map
-
-  var overlay= new google.maps.OverlayView();
-
-  // "Add the container when the overlay is added to the map"
-  // mbostock
-  overlay.onAdd= function(){
-    var layer = d3.select(this.getPanes().overlayMouseTarget).append("div")
-                  .attr("class","crash")
-
-    // Draw each marker as a separate SVG element
-    // mbostock
-    overlay.draw=function(){
-
-      var projection=this.getProjection(),
-      padding = 11;
-
-      // Pari 11/29 tooltip //
-      //  http://bl.ocks.org/jhmarcus/8185674 //
-      var tooltip = d3.select("body")
-            .append("div")
-        .attr("class", "tooltip")
-        .style("opacity", 0);
-
-      var marker = layer.selectAll("svg")
-                        .data(data)
-                        .each(transform)
-                        .enter().append("svg")
-                        .each(transform)
-                        .attr("class","marker")
-      // Add circle
-      circle_r=3;
-      marker.append("circle")
-            .attr("r", circle_r)
-            .attr("cx", padding)
-            .attr("cy", padding)
-            //Pari 11/29 added from   http://bl.ocks.org/jhmarcus/8185674
-            .on("mouseover", function(d){
-                tooltip.transition()
-                    .duration(200)
-                    .style("opacity", .9);
-                tooltip.html("Date: "+(d.Date)+ " Time: "+d.TimeAP+"<br>"+"Age: "+d.Age+"<br>"+"Gender: "+d.Gender)
-                    .style("left", (d3.event.pageX + 5)+ "px")
-                    .style("top", (d3.event.pageY -28)+ "px");
-            })
-            .on("mouseout", function(d){
-                tooltip.transition()
-                .duration(200)
-                .style("opacity", 0);
-             })
-            .filter(function(d){
-                return d.Road_Name.includes("I465")||
-                       d.Road_Name.includes("I65")||
-                       d.Road_Name.includes("I70")||
-                       d.Road_Name.includes("I74")||
-                       d.Road_Name.includes("I69")
-                })
-            .style("fill","blue")
-
-    //add labels
-    //insert code
-
-      function transform(d){
-        d= new google.maps.LatLng(+d.Latitude, +d.Longitude);
-        d= projection.fromLatLngToDivPixel(d);
-        return d3.select(this)
-                 .style("left", (d.x-padding) + "px")
-                 .style("top", (d.y-padding)+ "px")
-        }
-      };
-    };
-    // "Bind our overlay to the map"
-    // mbostock
-    overlay.setMap(map);
-    AgeChart();
-    Weekday_Chart();
-    });
-
-
-
-
-</script>
-  </body>
+</body>
 </html>

@@ -1,4 +1,96 @@
-function updating(data){
+////////////////////////////////////////////////////////
+///////////FUNCTION Update Weekday Chart //////////////
+
+function c_week_bars_update(id,group,agegroup){
+weekbar_sum=d3.sum(myData, function(d) {
+                  return d.day==group && d.age != agegroup;})
+
+d3.select(id)
+   .selectAll('rect')
+   .transition()
+   .duration(500)
+   .attr("stroke","black")
+   .attr("fill", "gold")
+   .attr('height',function(d){
+         return bar_hScale(d3.sum(myData, function(d) {
+                           return d.day==group && d.age != agegroup;
+                       })
+                     );
+                   })
+   .attr("y", function(d){
+         return weekbar_start + bar_yScale(d3.sum(myData, function(d) {
+                             return d.day==group && d.age != agegroup;
+                         })
+                       );
+                   });
+
+
+     //txt agegroup total
+     svg2.select(id).selectAll("text")
+        .transition()
+        .duration(500)
+        .text(
+               d3.sum(myData, function(d) {
+                   return d.day==group && d.age != agegroup;
+            })
+          )
+        .attr("y", function(d){
+                      return (weekbar_start-5) + bar_yScale(d3.sum(myData, function(d) {
+                          return d.day==group && d.age != agegroup;
+                        })
+                      );
+                    })
+        .attr("fill","blue")
+        
+
+ }
+
+function infoage_update(id,agegroup, group){
+  barsum=d3.sum(myData, function(d) {
+                    return d.age==agegroup && d.day != group;
+                })
+
+    d3.select(id)
+       .selectAll('rect')
+       .transition()
+       .duration(500)
+       .attr("stroke","black")
+       .attr("fill", "gold")
+       .attr('height',function(d){
+             return bar_age_hScale(d3.sum(myData, function(d) {
+                               return d.age==agegroup && d.day != group;
+                           })
+                         );
+                     })
+
+       .attr("y", function(d){
+             return agebar_start + bar_age_yScale(d3.sum(myData, function(d) {
+                                 return d.age==agegroup && d.day != group;
+                             })
+                           );
+                     })
+
+     //txt agegroup total
+     svg2.select(id).selectAll("text")
+        .transition()
+        .duration(500)
+        .text(
+               d3.sum(myData, function(d) {
+                   return d.age==agegroup && d.day != group;
+
+            })
+          )
+        .attr("y", function(d){
+                      return (agebar_start-5) + bar_age_yScale(d3.sum(myData, function(d) {
+                          return d.age==agegroup && d.day != group;
+                        })
+                      );
+                    })
+        .attr("fill","blue")
+
+ }
+
+function updating(){
   //output max value of weekday barcharts
   max_week_value=d3.max([
                       d3.sum(myData, function(d){
@@ -28,206 +120,68 @@ function updating(data){
 
   d3.selectAll("circle")
     .transition()
-    .duration(10)
-    .attr("r",3)
+    .duration(500)
+    .attr("r",circle_r)
     .filter(function(d){
         return parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value);
     })
       .attr("r",0);
 
-  ////////////////////////////////////////////////////////
-  ///////////FUNCTION Update Weekday Chart //////////////
 
-   function c_week_bars_update(id,group){
-   d3.select(id)
-       .selectAll('rect')
-       .data(ppl)
-       .transition()
-       .duration(100)
-       .attr("stroke","black")
-       .attr("fill", "gold")
-       .attr('height',function(d){
-             return bar_hScale(d3.sum(myData, function(d) {
-                               return d.day==group;
-                           })
-                         );
-                       })
-       .attr("y", function(d){
-             return weekbar_start + bar_yScale(d3.sum(myData, function(d) {
-                                 return d.day==group;
-                             })
-                           );
-                       })
-       // .on("click",function(data){
-       //    if (!d3.select(this).classed("selected")) {
-       //      d3.select(this).classed("selected", true)
-       //      d3.select(this).transition().attr("fill","lightgray")
-       //
-       //      //update map
-       //      d3.selectAll("circle")
-       //        .transition()
-       //        .duration(10)
-       //        .filter(function(d){return d.Day==group})
-       //          //.style("fill", "lightblue")
-       //          .attr("r",0);
-       //
-       //    }
-       //    else{
-       //      d3.select(this).classed("selected", false);
-       //      d3.select(this).transition().attr("fill","gold");
-       //
-       //      //update map
-       //      d3.selectAll("circle")
-       //        .transition()
-       //        .duration(10)
-       //        .filter(function(d){return d.Day==group})
-       //          //.style("fill", "red")
-       //          .attr("r",3)
-       //          }
-       //      })
+  c_week_bars_update("#MON","MONDAY");
+
+  c_week_bars_update("#TUES","TUESDAY");
+
+  c_week_bars_update("#WED","WEDNESDAY");
+
+  c_week_bars_update("#THURS","THURSDAY");
+
+  c_week_bars_update("#FRI","FRIDAY");
+
+  c_week_bars_update("#SAT","SATURDAY");
+
+  c_week_bars_update("#SUN","SUNDAY");
+
+  //////////////////////////////////////////////////
 
 
-         //txt agegroup total
-         svg2.select(id).selectAll("text")
-            .data(ppl)
-            .transition()
-            .duration(100)
-            .text(
-                   d3.sum(myData, function(d) {
-                       return d.day==group;
-                })
-              )
-            .attr("y", function(d){
-                          return (weekbar_start-5) + bar_yScale(d3.sum(myData, function(d) {
-                              return d.day==group;
-                            })
-                          );
-                        });
-
-     }
-
-    c_week_bars_update("#MON","MONDAY");
-
-    c_week_bars_update("#TUES","TUESDAY");
-
-    c_week_bars_update("#WED","WEDNESDAY");
-
-    c_week_bars_update("#THURS","THURSDAY");
-
-    c_week_bars_update("#FRI","FRIDAY");
-
-    c_week_bars_update("#SAT","SATURDAY");
-
-    c_week_bars_update("#SUN","SUNDAY");
-
-    //Update Y axis
-
-    //////////////////////////////////////////////////
 
 
-     function infoage_update(id,agegroup){
-     d3.select(id)
-         .selectAll('rect')
-         .data(ppl)
-         .transition()
-         .duration(100)
-         .attr("stroke","black")
-         .attr("fill", "gold")
-         .attr('height',function(d){
-               return bar_age_hScale(d3.sum(myData, function(d) {
-                                 return d.age==agegroup;
-                             })
-                           );
-                         })
-         .attr("y", function(d){
-               return agebar_start + bar_age_yScale(d3.sum(myData, function(d) {
-                                   return d.age==agegroup;
-                               })
-                             );
-                         })
-         // .on("click",function(data){
-         //    if (!d3.select(this).classed("selected")) {
-         //      d3.select(this).classed("selected", true)
-         //      d3.select(this).transition().attr("fill","lightgray")
-         //
-         //      //update map
-         //      d3.selectAll("circle")
-         //        .transition()
-         //        .duration(5)
-         //        .filter(function(d){return d.Age==agegroup})
-         //          //.style("fill", "lightblue")
-         //          .attr("r",0);
-         //
-         //    }
-         //    else{
-         //      d3.select(this).classed("selected", false);
-         //      d3.select(this).transition().attr("fill","gold");
-         //
-         //      //update map
-         //      d3.selectAll("circle")
-         //        .transition()
-         //        .duration(5)
-         //        .filter(function(d){return d.Age==agegroup})
-         //          //.style("fill", "red")
-         //          .attr("r",3)
-         //          }
-         //      })
+  //////////////////Draw Age charts
 
-           //txt agegroup total
-           svg2.select(id).selectAll("text")
-              .data(ppl)
-              .transition()
-              .duration(100)
-              .text(
-                     d3.sum(myData, function(d) {
-                         return d.age==agegroup;
+  infoage_update("#agechart0","<1Year");
 
-                  })
-                )
-              .attr("y", function(d){
-                            return (agebar_start-5) + bar_age_yScale(d3.sum(myData, function(d) {
-                                return d.age==agegroup;
-                              })
-                            );
-                          })
+  infoage_update("#agechart1","1-4Years");
 
-       }
+  infoage_update("#agechart2","5-14Years");
 
-    //////////////////Draw Age charts
+  infoage_update("#agechart3","15-24Years");
 
-      infoage_update("#agechart0","<1Year");
+  infoage_update("#agechart4","25-34Years");
 
-      infoage_update("#agechart1","1-4Years");
+  infoage_update("#agechart5","35-44Years");
 
-      infoage_update("#agechart2","5-14Years");
+  infoage_update("#agechart6","45-54Years");
 
-      infoage_update("#agechart3","15-24Years");
+  infoage_update("#agechart7","55-64Years");
 
-      infoage_update("#agechart4","25-34Years");
+  infoage_update("#agechart8","65-74Years");
 
-      infoage_update("#agechart5","35-44Years");
+  infoage_update("#agechart9","75-84Years");
 
-      infoage_update("#agechart6","45-54Years");
-
-      infoage_update("#agechart7","55-64Years");
-
-      infoage_update("#agechart8","65-74Years");
-
-      infoage_update("#agechart9","75-84Years");
-
-      infoage_update("#agechart10",">=85Years");
+  infoage_update("#agechart10",">=85Years");
 
 
-//y axis Update
+  //y axis Update
 
-      svg2.select(".week.axis")
-          .transition()
-          .duration(1000)
-          .call(yAxis_week);
+  svg2.select(".week.axis")
+      .transition()
+      .duration(1000)
+      .call(yAxis_week);
 
-      svg2.select(".age.axis")
-          .transition()
-          .duration(1000)
-          .call(yAxis_age);
+  svg2.select(".age.axis")
+      .transition()
+      .duration(1000)
+      .call(yAxis_age);
 
 }

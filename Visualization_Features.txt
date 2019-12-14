@@ -1,0 +1,44 @@
+
+
+https://github.com/mabetz/H517-Project-2
+
+Project2 Visualization Features:
+
+Window: will reorganize itself while maintaining visualization sizes.
+
+Google Map background: Used as a backdrop for our mapping
+	- Zoom (mouse wheel and buttons on visualization)
+	- Pan
+	- Map/Satellite options
+	- Full screen
+	- Person drop
+	- Red dots are traffic incidences that resulted in death
+	- Blue dots are traffic incidences that resulted in death on an interstate
+	- Only 2 counties are shown to keep the data set manageable
+	- Tooltip allows additional information to be accessed when 'hovering over' nodes with the cursor.
+		- Date
+		- Time (AM/PM)
+		- Number of Deaths
+		- Age groups of each victim
+		- Gender of driver
+		- Cause of accident
+	- Disappearing and reappearing nodes caused by filters smoothly transition in and out of existence
+	- Pictures of locations in Indy are available with the "drop yellow dude" option
+	- Ability to drop to street view and look at the area of a crash site
+
+Title: Header of webpage centered text
+
+Left sidenav: Containing filters
+	- Calendar choosing beginning and ending dates
+	- Reset All button changes all options and filters back to the default settings
+
+Right sidenav: Histograms
+	- Number of deaths distributed over days of the week
+		- Each day is written out with Monday being first and Sunday being last
+		- Clicking on the rectangles will "deselect" them and the map will update accordingly
+		- Interacts with 'AGE DISTRIBUTION' histogram to filter accordingly as well as calendar filters.
+	- Number of deaths by predetermined age groups within the data
+		- Each age group defined by th edata is written out from youngest to oldest on the x-axis
+		- Clicking on the rectangles will "deselct" deaths that correspond to that filter and will be removed from the map and the interacting histogram
+		- Interacts with 'Age distribution' and also calendar filters
+

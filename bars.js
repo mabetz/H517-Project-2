@@ -7,7 +7,7 @@ var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust_age=MAX_BAR_HEIGHT_AGE+215;
  var agebar_start= 0;
- var max_bar_value_age=80
+ var max_bar_value_age=65
 
  var bar_age_yScale = d3.scale.linear()
             .domain([0,max_bar_value_age])
@@ -24,7 +24,7 @@ var textcenter=BAR_WIDTH/2;
 
    svg2.append("g")
         .attr("class", "age axis")
-        .attr("transform", "translate(435,"+yaxis_adjust_age+")")
+        .attr("transform", "translate(350,"+yaxis_adjust_age+")")
         .call(yAxis_age);
 //Age X axis
  var age_xScale = d3.scale.ordinal()
@@ -42,7 +42,7 @@ var textcenter=BAR_WIDTH/2;
 
  svg2.append("g")
      .attr("class", "x axis")
-     .attr("transform", "translate(435,520)")
+     .attr("transform", "translate(352,520)")
      .call(xAxis_age)
      .selectAll("text")
        .attr("x", 10)
@@ -76,34 +76,58 @@ var textcenter=BAR_WIDTH/2;
                          );
                      })
      .on("click",function(data){
-        if (!d3.select(this).classed("selected")) {
-          d3.select(this).classed("selected", true)
-          d3.select(this).transition().attr("fill","lightgray")
+        // if (!d3.select(this).classed("selected")) {
+        //   d3.select(this).classed("selected", true)
+          d3.select(this).on("mouseout",null)
+            .transition().duration(500)
+            .attr("fill","rgb(245,245,245)")
+            .attr("stroke","rgb(245,245,245)")
 
+            d3.select(id).selectAll('text')
+              .transition()
+              .duration(500)
+              .attr("fill","rgb(245,245,245)")
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(5)
+            .duration(500)
             .filter(function(d){return d.Age==agegroup})
               //.style("fill", "lightblue")
               .attr("r",0);
 
-        }
-        else{
-          d3.select(this).classed("selected", false);
-          d3.select(this).transition().attr("fill","gold");
+          c_week_bars_update("#MON","MONDAY",agegroup);
 
-          //update map
-          d3.selectAll("circle")
-            .transition()
-            .duration(5)
-            .filter(function(d){return d.Age==agegroup &&
-                                      parseDate(date1.value) <= parseDateCSV(d.Date) &&
-                                      parseDateCSV(d.Date) <= parseDate(date2.value)
-            })
-              .attr("r",3)
-              }
+          c_week_bars_update("#TUES","TUESDAY",agegroup);
+
+          c_week_bars_update("#WED","WEDNESDAY",agegroup);
+
+          c_week_bars_update("#THURS","THURSDAY",agegroup);
+
+          c_week_bars_update("#FRI","FRIDAY",agegroup);
+
+          c_week_bars_update("#SAT","SATURDAY",agegroup);
+
+          c_week_bars_update("#SUN","SUNDAY",agegroup);
+
+          myData= myData.filter(function(d) {
+            return d.age != agegroup;
           })
+        })
+        // else{
+        //   d3.select(this).classed("selected", false);
+        //   d3.select(this).transition().attr("fill","gold");
+        //
+        //   //update map
+        //   d3.selectAll("circle")
+        //     .transition()
+        //     .duration(500)
+        //     .filter(function(d){return d.Age==agegroup &&
+        //                               parseDate(date1.value) <= parseDateCSV(d.Date) &&
+        //                               parseDateCSV(d.Date) <= parseDate(date2.value)
+        //     })
+        //       .attr("r",circle_r)
+        //       }
+        //   })
 
        //txt agegroup total
        svg2.select(id).selectAll("text")

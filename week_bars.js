@@ -8,7 +8,7 @@ var textcenter=BAR_WIDTH/2;
 
  var yaxis_adjust=MAX_BAR_HEIGHT+215;
  var weekbar_start= 0;
- var max_bar_value=90;
+ var max_bar_value=65;
 
  var bar_yScale = d3.scale.linear()
             .domain([0,max_bar_value])
@@ -25,7 +25,7 @@ var textcenter=BAR_WIDTH/2;
 
    svg2.append("g")
         .attr("class", "week axis")
-        .attr("transform", "translate(115,"+yaxis_adjust+")")
+        .attr("transform", "translate(50,"+yaxis_adjust+")")
         .call(yAxis_week);
 //Age X axis
  var week_xScale = d3.scale.ordinal()
@@ -41,13 +41,13 @@ var textcenter=BAR_WIDTH/2;
 
  svg2.append("g")
      .attr("class", "x axis")
-     .attr("transform", "translate(115,520)")
+     .attr("transform", "translate(53,520)")
      .call(xAxis_week)
      .selectAll("text")
        .attr("x", 10)
        .style("text-anchor","end")
        .attr("transform","translate(0,10),rotate(-45)");
-       
+
 ////////////////////////////////////////////////////////
 ///////////FUNCTION Age group bar
 
@@ -74,35 +74,156 @@ var textcenter=BAR_WIDTH/2;
                          );
                      })
      .attr("class","w_bar")
-     .on("click",function(data){
-        if (!d3.select(this).classed("selected")) {
-          d3.select(this).classed("selected", true)
-          d3.select(this).transition().attr("fill","lightgray")
+     .on("click",function(){
+        // if (!d3.select(this).classed("selected")) {
+        //   d3.select(this).classed("selected", true)
+          d3.select(this).on("mouseout",null)
+            .transition().duration(500)
+            .attr("fill","rgb(245,245,245)")
+            .attr("stroke","rgb(245,245,245)")
+
+            d3.select(id).selectAll('text')
+              .transition()
+              .duration(500)
+              .attr("fill","rgb(245,245,245)")
 
           //update map
           d3.selectAll("circle")
             .transition()
-            .duration(5)
+            .duration(500)
             .filter(function(d){return d.Day==group})
               //.style("fill", "lightblue")
               .attr("r",0);
 
-        }
-        else{
-          d3.select(this).classed("selected", false);
-          d3.select(this).transition().attr("fill","gold");
+          infoage_update("#agechart0","<1Year",group);
 
-          //update map
-          d3.selectAll("circle")
-            .transition()
-            .duration(5)
-            .filter(function(d){return d.Day==group &&
-                                      parseDate(date1.value) <= parseDateCSV(d.Date) &&
-                                      parseDateCSV(d.Date) <= parseDate(date2.value)
-            })
-              .attr("r",3)
-              }
+          infoage_update("#agechart1","1-4Years",group);
+
+          infoage_update("#agechart2","5-14Years",group);
+
+          infoage_update("#agechart3","15-24Years",group);
+
+          infoage_update("#agechart4","25-34Years",group);
+
+          infoage_update("#agechart5","35-44Years",group);
+
+          infoage_update("#agechart6","45-54Years",group);
+
+          infoage_update("#agechart7","55-64Years",group);
+
+          infoage_update("#agechart8","65-74Years",group);
+
+          infoage_update("#agechart9","75-84Years",group);
+
+          infoage_update("#agechart10",">=85Years",group);
+
+          myData= myData.filter(function(d) {
+            return d.day != group;
           })
+
+        })
+        // else{
+        //   d3.select(this).classed("selected", false);
+        //   d3.select(this).transition().attr("fill","gold");
+        //
+        //   //update map
+        //   d3.selectAll("circle")
+        //     .transition()
+        //     .duration(500)
+        //     .filter(function(d){return d.Day==group &&
+        //                               parseDate(date1.value) <= parseDateCSV(d.Date) &&
+        //                               parseDateCSV(d.Date) <= parseDate(date2.value)
+        //     })
+        //       .attr("r",circle_r)
+        //       }
+          // })
+      // .on("mouseover",function(data){
+      //    if (!d3.select(this).classed("selected")) {
+      //      d3.select(this).classed("selected", true)
+      //      d3.select(this).transition().duration(500)
+      //        .attr("fill","rgb(245,245,245)")
+      //        .attr("stroke","rgb(245,245,245)")
+      //
+      //        d3.select(id).selectAll('text')
+      //          .transition()
+      //          .duration(500)
+      //          .attr("fill","rgb(245,245,245)")
+      //
+      //      //update map
+      //      d3.selectAll("circle")
+      //        .transition()
+      //        .duration(500)
+      //        .filter(function(d){return d.Day==group})
+      //          //.style("fill", "lightblue")
+      //          .attr("r",0);
+      //
+      //      infoage_update("#agechart0","<1Year",group);
+      //
+      //      infoage_update("#agechart1","1-4Years",group);
+      //
+      //      infoage_update("#agechart2","5-14Years",group);
+      //
+      //      infoage_update("#agechart3","15-24Years",group);
+      //
+      //      infoage_update("#agechart4","25-34Years",group);
+      //
+      //      infoage_update("#agechart5","35-44Years",group);
+      //
+      //      infoage_update("#agechart6","45-54Years",group);
+      //
+      //      infoage_update("#agechart7","55-64Years",group);
+      //
+      //      infoage_update("#agechart8","65-74Years",group);
+      //
+      //      infoage_update("#agechart9","75-84Years",group);
+      //
+      //      infoage_update("#agechart10",">=85Years",group);
+      //
+      //     }
+      //    })
+      //    .on("mouseout",function(data){
+      //      d3.select(this).classed("selected", false);
+      //      d3.select(this).transition().duration(500)
+      //        .attr("fill","gold")
+      //        .attr("stroke","black")
+      //
+      //        d3.select(id).selectAll('text')
+      //          .transition()
+      //          .duration(500)
+      //          .attr("fill","blue")
+      //
+      //        infoage_update("#agechart0","<1Year")
+      //
+      //        infoage_update("#agechart1","1-4Years")
+      //
+      //        infoage_update("#agechart2","5-14Years")
+      //
+      //        infoage_update("#agechart3","15-24Years")
+      //
+      //        infoage_update("#agechart4","25-34Years")
+      //
+      //        infoage_update("#agechart5","35-44Years")
+      //
+      //        infoage_update("#agechart6","45-54Years")
+      //
+      //        infoage_update("#agechart7","55-64Years")
+      //
+      //        infoage_update("#agechart8","65-74Years")
+      //
+      //        infoage_update("#agechart9","75-84Years")
+      //
+      //        infoage_update("#agechart10",">=85Years")
+      //      //update map
+      //      d3.selectAll("circle")
+      //        .transition("outpoint")
+      //        .duration(500)
+      //        .filter(function(d){
+      //          return d.Day==group &&
+      //                                  parseDate(date1.value) <= parseDateCSV(d.Date) &&
+      //                                  parseDateCSV(d.Date) <= parseDate(date2.value)
+      //        })
+      //          .attr("r",circle_r)
+      //      })
 
        //txt agegroup total
        svg2.select(id).selectAll("text")
@@ -125,21 +246,30 @@ var textcenter=BAR_WIDTH/2;
           .attr("font-family", "sans-serif")
           .attr("font-size", "11px")
           .attr("fill", "blue");
- 
+
+
+     //txt agegroup total
+     svg2.select(id).selectAll("text")
+        .data(ppl)
+        .enter()
+        .append("text")
+        .text(
+               d3.sum(ppl, function(d) {
+                   return d.day==group;
+            })
+          )
+        .attr("text-anchor", "middle")
+        .attr("x", (x_value+textcenter))
+        .attr("y", function(d){
+                      return (weekbar_start-5) + bar_yScale(d3.sum(ppl, function(d) {
+                          return d.day==group;
+                        })
+                      );
+                    })
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "11px")
+        .attr("fill", "blue");
    }
-
- //Pari    
- var sum = d3.sum(data, function(d){ return d.deaths; });
-    svg2.append("text")
-        .attr("transform", "translate(" + (width+3) + "," + y(sum) + ")")
-        .attr("dy", "1em")
-        .attr("text-anchor", "end")
-        .style("fill", "red")
-        .html("Average = $" + average);       
-     
- /////   
-
-      
 
 //////////////////Draw Age charts
 function Weekday_Chart()
