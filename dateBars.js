@@ -24,7 +24,7 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .ticks(8);
+    .ticks(5);
 
 
 
@@ -38,7 +38,7 @@ var graph = d3.csv("output_filtered_2015_to_2018_v5_DeathBar.csv", function(data
     d.deaths = +d.Deaths;
   });
 
-    
+
 //for tooltip
 var tip = d3.tip()
   .attr('class', 'd3-tip')
@@ -46,17 +46,17 @@ var tip = d3.tip()
   .html(function(d) {
     return "<strong>Date: </strong> <span style='color:red'>" + d.Date +"</span>";
   })
-////////////////    
-    
-    
-    
+////////////////
+
+
+
 svg2.call(tip);
-    
+
   // scale the range of the data
   //x.domain(data.map(function(d) { return d.date; }));
   x.domain(d3.extent(data, function(d) { return d.dates; }));
   y.domain([0, d3.max(data, function(d) { return d.deaths; })]);
-    
+
   // add axis
   svg2.append("g")
       .attr("class", "x axis")
