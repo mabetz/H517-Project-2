@@ -25,7 +25,7 @@ var xAxis = d3.svg.axis()
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .ticks(8);
+    .ticks(5);
 
 
 var movebar_side=40
