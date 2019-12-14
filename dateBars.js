@@ -21,11 +21,11 @@ var xAxis = d3.svg.axis()
     .scale(x)
     .orient("bottom")
 
-
 var yAxis = d3.svg.axis()
     .scale(y)
     .orient("left")
-    .ticks(5);
+    .ticks(8);
+
 
 
 var movebar_side=40
@@ -34,16 +34,29 @@ var movebar_down=40
 
 var graph = d3.csv("output_filtered_2015_to_2018_v5_DeathBar.csv", function(data) {
   data.forEach(function(d) {
-    d.date = format.parse(d.Date);
+    d.dates = format.parse(d.Date);
     d.deaths = +d.Deaths;
   });
 
-
+    
+//for tooltip
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Date: </strong> <span style='color:red'>" + d.Date +"</span>";
+  })
+////////////////    
+    
+    
+    
+svg2.call(tip);
+    
   // scale the range of the data
   //x.domain(data.map(function(d) { return d.date; }));
-  x.domain(d3.extent(data, function(d) { return d.date; }));
+  x.domain(d3.extent(data, function(d) { return d.dates; }));
   y.domain([0, d3.max(data, function(d) { return d.deaths; })]);
-
+    
   // add axis
   svg2.append("g")
       .attr("class", "x axis")
@@ -75,10 +88,12 @@ var graph = d3.csv("output_filtered_2015_to_2018_v5_DeathBar.csv", function(data
     .enter().append("rect")
       .attr("class", "bar")
     .attr("fill", "steelblue")
-      .attr("x", function(d) { return x(d.date); })
+      .attr("x", function(d) { return x(d.dates); })
       .attr("width", "1px")
       .attr("y", function(d) { return y(d.deaths); })
       .attr("height", function(d) { return height - y(d.deaths); })
+        .on('mouseover', tip.show)
+        .on('mouseout', tip.hide)
       .attr("transform","translate("+movebar_side+","+movebar_down+")");
 
 });
