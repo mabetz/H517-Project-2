@@ -63,7 +63,7 @@ var tip = d3.tip()
   .attr('class', 'd3-tip')
   .offset([-10, 0])
   .html(function(d) {
-    return "<strong>Date: </strong> <span style='color:red'>" + d.Date +"</span>";
+    return "<strong>Date: </strong> <span style='color:white'>" + d.Date +"</span>";
   })
 //////////////// 
 
@@ -99,7 +99,15 @@ svg2.call(tip);
         .attr("transform", "rotate(-90)" )
         .attr("dx", "-5em")
         .attr("dy", "-5em");
-
+	
+//title of the graph
+ svg2.append("text")
+        .attr("x", (width / 2))             
+        .attr("y", 0 - (margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "15px") 
+        //.style("text-decoration", "underline")  
+        .text("NUMBER OF DEATHS BY DATE OF ACCIDENT");   
 
   // Add bar chart
   svg2.selectAll("bar")
