@@ -238,6 +238,7 @@
 
           <text id="bar_txt" x="-500" y="10" transform="rotate(-90)">Number of Deaths</text>
 
+          <text id="needle_txt" x="-200" y="10" transform="rotate(-90)">Number of Deaths</text>
           <text x="380" y="340">AGE GROUP DISTRIBUTION</text>
 
           <g id='agegroup_txt' transform="translate(100,100)"/>
@@ -284,7 +285,7 @@
         myData = ppl.filter(function(d) {
           if(time1>time2){
             return (d.date >= date1 && d.date <= date2) &&
-                   ((d.time.getHours()*100 +(d.time.getMinutes())) >= (time1.getHours()*100 +(time1.getMinutes() )) || (d.time.getHours()*100 +(d.time.getMinutes())) <= (time2.getHours()*100 +(time2.getMinutes())));  
+                   ((d.time.getHours()*100 +(d.time.getMinutes())) >= (time1.getHours()*100 +(time1.getMinutes() )) || (d.time.getHours()*100 +(d.time.getMinutes())) <= (time2.getHours()*100 +(time2.getMinutes())));
 
           }
           else{
