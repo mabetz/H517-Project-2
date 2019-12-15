@@ -41,7 +41,7 @@ d3.select(id)
                       );
                     })
         .attr("fill","blue")
-        
+
 
  }
 
