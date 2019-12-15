@@ -123,7 +123,8 @@ function updating(){
     .duration(500)
     .attr("r",circle_r)
     .filter(function(d){
-        return parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value);
+        return (parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value)) ||
+               ((d.time.getHours()*100 +(d.time.getMinutes())) < (time1.getHours()*100 +(time1.getMinutes() )) || (d.time.getHours()*100 +(d.time.getMinutes())) > (time2.getHours()*100 +(time2.getMinutes())));
     })
       .attr("r",0);
 
