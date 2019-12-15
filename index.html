@@ -187,7 +187,7 @@
           <input type="time" name="time1" id="time1"  value="00:00" /><br />
           <br>
           Time To: <br>
-          <input type="time" name="time1" id="time2" value="23:59"  /><br />
+          <input type="time" name="time2" id="time2" value="23:59"  /><br />
           <br>
 
 
@@ -269,12 +269,21 @@
       //Maggie: testing out filtering data by date
       var	parseDate = d3.time.format("%Y-%m-%d").parse; //parse into date for easy filtering.
       var	parseDateCSV = d3.time.format("%m/%d/%Y").parse; //parse CSV file which has different format than the calendar input buttons
+
+      var parseTime =d3.time.format("%H:%M").parse;
+      var parseTimeCSV= d3.time.format("%X %p").parse;
+
       function render(filterByDates) {
       if(filterByDates) {
         var date1 = parseDate(document.getElementById('date1').value);
         var date2 = parseDate(document.getElementById('date2').value);
+
+        var time1 =parseTime(document.getElementById('time1').value);
+        var time2 =parseTime(document.getElementById('time2').value);
+
         myData = ppl.filter(function(d) {
-          return d.date >= date1 && d.date <= date2;
+          return (d.date >= date1 && d.date <= date2) &&
+                 ((d.time.getHours()*100 +(d.time.getMinutes())) >= (time1.getHours()*100 +(time1.getMinutes() )) && (d.time.getHours()*100 +(d.time.getMinutes())) <= (time2.getHours()*100 +(time2.getMinutes())));
         });
       }
       }
@@ -290,6 +299,11 @@
           .property("value","2015-01-01");
         d3.select('#date2')
           .property("value","2018-12-31");
+
+        d3.select('#time1')
+          .property("value","00:00");
+        d3.select('#time2')
+          .property("value","23:59");
 
         updating();
       })
@@ -335,7 +349,7 @@
               age: d.Age,
               deaths: d.Deaths,
               cause: d.Cause,
-              time: d.Time,
+              time: parseTimeCSV(d.Time),
               ageAggregate: d.Age_Aggregate2
             }
             ppl.push(object);
