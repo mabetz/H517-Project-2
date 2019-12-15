@@ -202,12 +202,21 @@
 
       <script>
       //Maggie: testing out filtering data by date
-      var	parseDate = d3.time.format("%Y-%m-%d").parse; //parse into date for easy filtering.
+      var	parseDate = d3.time.format("%Y-%m-%d").parse; //parse input date for easy filtering.
       var	parseDateCSV = d3.time.format("%m/%d/%Y").parse; //parse CSV file which has different format than the calendar input buttons
+
+      var	parseTime = d3.time.format("%H:%M").parse; //parse input time for easy filtering.
+      var	parseTimeCSV = d3.time.format("%I:%M:%S %p" ).parse; //parse CSV file which has different format than the time input buttons
+
+
       function render(filterByDates) {
       if(filterByDates) {
         var date1 = parseDate(document.getElementById('date1').value);
         var date2 = parseDate(document.getElementById('date2').value);
+
+        var time1 = parseTime(document.getElementById('time1').value);
+        var time2 = parseTme(document.getElementById('time2').value);
+
         myData = ppl.filter(function(d) {
           return d.date >= date1 && d.date <= date2;
         });
