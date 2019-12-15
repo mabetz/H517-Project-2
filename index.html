@@ -282,9 +282,16 @@
         var time2 =parseTime(document.getElementById('time2').value);
 
         myData = ppl.filter(function(d) {
-          return (d.date >= date1 && d.date <= date2) &&
-                 ((d.time.getHours()*100 +(d.time.getMinutes())) >= (time1.getHours()*100 +(time1.getMinutes() )) && (d.time.getHours()*100 +(d.time.getMinutes())) <= (time2.getHours()*100 +(time2.getMinutes())));
-        });
+          if(time1>time2){
+            return (d.date >= date1 && d.date <= date2) &&
+                   ((d.time.getHours()*100 +(d.time.getMinutes())) >= (time1.getHours()*100 +(time1.getMinutes() )) || (d.time.getHours()*100 +(d.time.getMinutes())) <= (time2.getHours()*100 +(time2.getMinutes())));  
+
+          }
+          else{
+            return (d.date >= date1 && d.date <= date2) &&
+                   ((d.time.getHours()*100 +(d.time.getMinutes())) >= (time1.getHours()*100 +(time1.getMinutes() )) && (d.time.getHours()*100 +(d.time.getMinutes())) <= (time2.getHours()*100 +(time2.getMinutes())));
+          }
+                  });
       }
       }
       //submit button

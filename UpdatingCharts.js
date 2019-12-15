@@ -126,10 +126,19 @@ function updating(){
         var time1 =parseTime(document.getElementById('time1').value);
         var time2 =parseTime(document.getElementById('time2').value);
         var time_c=parseTimeCSV(d.Time) //
-        
-        return (parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value)) ||
+
+        if (time1>time2){
+          return (parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value)) ||
+                 ((time_c.getHours()*100 +(time_c.getMinutes())) < (time1.getHours()*100 +(time1.getMinutes() )) &&
+                 (time_c.getHours()*100 +(time_c.getMinutes())) > (time2.getHours()*100 +(time2.getMinutes())));
+
+        }
+        else{
+          return (parseDate(date1.value) > parseDateCSV(d.Date) || parseDateCSV(d.Date) > parseDate(date2.value)) ||
                ((time_c.getHours()*100 +(time_c.getMinutes())) < (time1.getHours()*100 +(time1.getMinutes() )) || (time_c.getHours()*100 +(time_c.getMinutes())) > (time2.getHours()*100 +(time2.getMinutes())));
-    })
+        }
+
+      })
       .attr("r",0);
 
 
