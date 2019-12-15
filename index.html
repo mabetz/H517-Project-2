@@ -20,6 +20,11 @@
     width: 600px;
     height: 40px;
   }
+  .legend_rect{
+    width: 8px;
+    height: 8px;
+    stroke: solid 1px black;
+  }
 
   #map{
     width: 550px;
@@ -204,9 +209,9 @@
             <!-- Legend -->
             <text x="5" y="30" style="font-size: 18px;">Legend:</text>
 
-            <g id="i_deaths"/>
+            <rect class="legend_rect" id="i_deaths" x="110" y="22" fill="blue"/>
               <text x="120" y="30" style="font-size: 14px;">Interstate Deaths</text>
-            <g id="non_i_deaths"/>
+            <rect class="legend_rect" id="non_i_deaths" x="300" y="22" fill="red"/>
               <text x="310" y="30" style="font-size: 14px;">Non-Interstate Deaths</text>
           </svg>
 				</div>
